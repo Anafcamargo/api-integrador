@@ -6,7 +6,7 @@ export class criaUsuarioDTO{
     @IsString()
     @IsNotEmpty({message: "nome não pode ser vazio"})
     @ApiProperty({
-        example: "Joao",
+        example: "Alecrim",
         description: "Nome do usuário, deve ser informado um texto contendo o nome"
     })
     nome: string;

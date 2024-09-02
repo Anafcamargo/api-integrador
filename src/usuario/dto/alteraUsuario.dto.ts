@@ -9,7 +9,7 @@ export class alteraUsuarioDTO{
     @IsNotEmpty({message: "nome não pode ser vazio"})
     @IsOptional()
     @ApiPropertyOptional({
-        example: "Joao",
+        example: "Alecrim",
         description: "Nome do usuário, deve ser informado um texto contendo o nome"
     })
     nome: string;
