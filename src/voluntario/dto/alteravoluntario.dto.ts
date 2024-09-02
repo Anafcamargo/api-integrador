@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable prettier/prettier */
+
 import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength} from "class-validator";
 import { EmailUnico } from "../validacao/email.validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";

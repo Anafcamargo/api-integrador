@@ -1,4 +1,4 @@
-/* eslint-disable prettier/prettier */
+
 import { voluntarioEntity} from "../voluntario.entity";
 
 export class RetornovoluntarioDTO{

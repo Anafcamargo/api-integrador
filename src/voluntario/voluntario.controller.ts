@@ -1,8 +1,4 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable prettier/prettier */
-/* eslint-disable no-var */
-/* eslint-disable prettier/prettier */
+
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { criavoluntarioDTO } from "./dto/voluntario.dto";
 import {voluntarioEntity } from "./voluntario.entity";

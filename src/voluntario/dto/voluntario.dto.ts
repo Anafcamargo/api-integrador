@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-// eslint-disable-next-line prettier/prettier
+
 
 import { IsEmail, IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";

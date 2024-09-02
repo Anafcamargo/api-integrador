@@ -1,7 +1,4 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable prettier/prettier */
+
 import { Injectable } from "@nestjs/common";
 import { voluntarioEntity } from "./voluntario.entity";
 import { alteravoluntarioDTO } from "./dto/alteravoluntario.dto";

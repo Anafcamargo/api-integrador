@@ -1,8 +1,4 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable prettier/prettier */
+
 import { registerDecorator, ValidationArguments, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface } from "class-validator";
 import { Injectable } from "@nestjs/common";
 import { voluntariosArmazenados } from "../voluntario.dm";
@@ -15,7 +11,7 @@ export class emailUnicoValidator implements ValidatorConstraintInterface{
     }
     
     async validate(value: any, validationArguments?: ValidationArguments): Promise<boolean> {
-        const validarEmail =  this.Voluntarios.validaEmail(value);
+        const validarEmail =  await this.Voluntarios.validaEmail(value);
         return validarEmail;
     }    
 }

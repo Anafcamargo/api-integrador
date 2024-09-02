@@ -1,4 +1,4 @@
-/* eslint-disable prettier/prettier */
+
 export class voluntarioEntity{
     id: string;
     nome: string;
