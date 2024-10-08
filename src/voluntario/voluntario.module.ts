@@ -2,16 +2,25 @@
 import { Module } from '@nestjs/common';
 import { emailUnicoValidator } from './validacao/email.validator';
 import { voluntarioController } from './voluntario.controller';
-import { voluntariosArmazenados } from './voluntario.dm';
+import { voluntarioProviders } from './voluntario.providers';
+import { VoluntarioService } from './voluntario.service';
+import { DatabaseModule } from 'src/database/database.module';
 
 
 
 
 @Module({
   
+  imports: [DatabaseModule],
   controllers: [voluntarioController],
-  providers:[voluntariosArmazenados,emailUnicoValidator],
+  providers:[
+    ...voluntarioProviders,
+    VoluntarioService,
+    emailUnicoValidator
+  ],
   
 })
 
-export class voluntarioModule {}
+export class voluntarioModule {} 
+
+

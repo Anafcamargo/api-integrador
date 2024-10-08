@@ -1,29 +1,50 @@
 
-export class voluntarioEntity{
-    id: string;
-    nome: string;
-    cpf: string;
-    idade: number;
-    email: string;
-    senha: string;
-    telefone: string;
-    endereco: string;
-    numero_casa: string;
-    bairro: string;
-    value:number;
-   
-    constructor (id: string, nome: string, cpf: string, idade:number, email:string, senha:string, telefone: string, endereco: string, numero_casa: string, bairro:string ){
+import { Column, Entity, PrimaryColumn } from "typeorm";
 
-        this.id = id;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.idade = idade;
-        this.email = email;
-        this.senha = senha;
-        this.telefone = telefone;
-        this.endereco = endereco;
-        this.numero_casa = numero_casa;
-        this.bairro = bairro;
-       
+@Entity()
+export class VOLUNTARIO {
+    validaEmail(value: any) {
+        throw new Error("Method not implemented.");
     }
+    @PrimaryColumn ()
+    ID: string;
+
+    @Column ({length:255})
+    NOME: string;
+
+    @Column ({length:255})
+    CPF: string;
+
+    @Column({length:6})
+    NASCIMENTO: Number;
+
+    @Column({length:55})
+    EMAIL: string;
+
+    @Column({length:55})
+    SENHA: string;
+
+    @Column({length:20})
+    TELEFONE: string;
+
+    @Column({length:55})
+    ENDERECO: string;
+
+    
+    @Column({length:55})
+    NUMERO_CASA: string;
+
+    
+    @Column({length:55})
+    BAIRRO: string;
+
+    @Column({length:55})
+    CIDADE: string;
+
 }
+
+
+
+
+
+    

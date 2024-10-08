@@ -3,16 +3,16 @@ import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength} from "c
 import { EmailUnico } from "../validacao/email.validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
-export class alteravoluntarioDTO{
+export class alteraVoluntarioDTO{
 
     @IsString()
-    @IsNotEmpty({message: "nome não pode ser vazio"})
+    @IsNotEmpty({message: "nome não pode ser vazio"}) 
     @IsOptional()
     @ApiPropertyOptional({
         example: "Ana",
         description: "Nome do usuário, deve ser informado um texto contendo o nome"
     })
-    nome: string;
+    NOME: string;
 
     @IsString()
     @IsOptional()
@@ -20,7 +20,7 @@ export class alteravoluntarioDTO{
         example: "CPF",
         description: "CPF do usuário, deve ser informado um texto com a numeração"
     })
-    cpf: string;
+    CPF: string;
     
     @EmailUnico({message: "Email repetido"})
     @IsEmail(undefined, {message: "email inválido"})
@@ -29,7 +29,7 @@ export class alteravoluntarioDTO{
         example: "ana@teste.com",
         description: "Email do usuário, deve ser informado um email válido e que não se repita"
     })
-    email: string;
+    EMAIL: string;
 
     @MinLength(6, {message: "senha deve ter no minimo 6 digitos"})
     @IsOptional()
@@ -37,7 +37,7 @@ export class alteravoluntarioDTO{
         example: "senha123",
         description: "Senha do usuário, deve ter pelo menos 6 digitos"
     })
-    senha:string;
+    SENHA:string;
     
     @IsNumber()
     @IsOptional()
@@ -45,7 +45,7 @@ export class alteravoluntarioDTO{
         example: "1990",
         description: "Ano de nascimento do usuário, deve ser informado como Numero"
     })
-    idade: number;
+    NASCIMENTO: number;
 
     @IsString()
     @IsOptional()
@@ -53,7 +53,7 @@ export class alteravoluntarioDTO{
          example: "Rua",
         description: "Endereço do usuário, deve ser informado um texto com o nome da rua"
     })
-    endereco: string;
+    ENDERECO: string;
 
     @IsString()
     @IsOptional()
@@ -61,7 +61,7 @@ export class alteravoluntarioDTO{
         example: "Numero da casa",
         description: "Numero da casa do usuário, deve ser informado um texto com o numero"
     })
-    numero_casa: string;
+    NUMERO_CASA: string;
 
     @IsString()
     @IsOptional()
@@ -69,7 +69,7 @@ export class alteravoluntarioDTO{
         example: "Bairro",
         description: "Bairro do usuário, deve ser informado um texto com o nome do bairro"
     })
-    bairro: string;
+    BAIRRO: string;
 
     @IsString()
     @IsOptional()
@@ -77,6 +77,14 @@ export class alteravoluntarioDTO{
         example: "12123412349",
         description: "Telefone do usuário, deve ser informado um texto apenas com os numeros do telefone"
     })
-    telefone: string;
+    TELEFONE: string;
+
+    @IsString()
+    @IsOptional()
+    @ApiPropertyOptional({
+        example: "Cidade",
+        description: "Cidade do usuário, deve ser informado um texto com o nome do cidade"
+    })
+    CIDADE: string;
 }
    

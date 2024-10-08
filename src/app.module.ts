@@ -2,10 +2,11 @@
 import { Module } from '@nestjs/common';
 import { voluntarioModule } from './voluntario/voluntario.module';
 import { UsuarioModule } from './usuario/usuario.module';
+import { ChamadoModule } from './chamados/chamado.module';
 
 
 @Module({
-  imports: [voluntarioModule,UsuarioModule],
+  imports: [voluntarioModule,UsuarioModule,ChamadoModule],
   controllers: [],
   providers: [],
 })

@@ -1,12 +1,15 @@
+import { VoluntarioService } from './../voluntario.service';
 
 import { registerDecorator, ValidationArguments, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface } from "class-validator";
 import { Injectable } from "@nestjs/common";
-import { voluntariosArmazenados } from "../voluntario.dm";
+
+
 
 @Injectable()
 @ValidatorConstraint({async:true})
 export class emailUnicoValidator implements ValidatorConstraintInterface{
-    constructor(private Voluntarios : voluntariosArmazenados){
+    Voluntarios: any;
+    constructor(private readonly VoluntarioService : VoluntarioService){
 
     }
     

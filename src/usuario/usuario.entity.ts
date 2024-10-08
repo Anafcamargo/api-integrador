@@ -1,14 +1,17 @@
+import { Column, Entity, PrimaryColumn } from "typeorm";
 
-export class UsuarioEntity{
-    id: string;
-    nome: string;
-    telefone: string;
-    
-    
-    constructor(id: string,nome: string,telefone: string){
-        this.id = id;
-        this.nome = nome;
-        this.telefone = telefone;
-        
-    }
+@Entity()
+export class USUARIO {
+    @PrimaryColumn ()
+    ID: string;
+
+    @Column ({length:255})
+    NOME: string;
+
+    @Column({length:20})
+    TELEFONE: string;
+
+    @Column({length:55})
+    SENHA: string;
+
 }

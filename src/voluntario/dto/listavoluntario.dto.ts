@@ -1,23 +1,19 @@
 
-export class ListavoluntarioDTO{
+export class ListaVoluntarioDTO{
 
     constructor(
-            readonly id: string, 
-            readonly nome: string,
-            readonly cpf: string,
-            readonly idade: number,
-            readonly email: string,
-            readonly senha: string,
-            readonly telefone: string,
-            readonly endereco: string,
-            readonly numero_casa: string,
-            readonly bairro: string
+            readonly ID: string, 
+            readonly NOME: string,
+            readonly CPF: string,
+            readonly NASCIMENTO: number,
+            readonly EMAIL: string,
+            readonly SENHA: string,
+            readonly TELEFONE: string, 
+            readonly ENDERECO: string,
+            readonly CIDADE: string,
+            readonly NUMERO_CASA: string,
+            readonly BAIRRO: string
            
             
     ){}
 } 
-export class ListagemVoluntariosDTO{
-    constructor(
-        readonly usuario: ListavoluntarioDTO[],
-    ){}
-}

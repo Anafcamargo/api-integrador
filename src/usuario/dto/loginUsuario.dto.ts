@@ -7,8 +7,8 @@ export class loginUsuarioDTO{
     
     @IsString()
     @IsNotEmpty({message: "nome não pode ser vazio"})
-    nome: string;
+    NOME: string;
 
     @IsString()
-    telefone: string;
+    SENHA: string;
 }

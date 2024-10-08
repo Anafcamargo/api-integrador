@@ -1,9 +1,9 @@
 
-import { voluntarioEntity} from "../voluntario.entity";
+import { VOLUNTARIO} from "../voluntario.entity";
 
-export class RetornovoluntarioDTO{
+export class RetornoVoluntarioDTO{
     constructor(
         readonly status: string,
-        readonly voluntario: voluntarioEntity
+        readonly voluntario: VOLUNTARIO
         ){}
-}
+} 
