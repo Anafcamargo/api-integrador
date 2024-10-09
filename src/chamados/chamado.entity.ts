@@ -16,6 +16,6 @@ export class CHAMADO {
     @Column ({length:155})
     TIPO:string;
 
-    // @OneToMany(() => FILME, filme => filme.genero)
-    // filmes: FILME[]
+    // @OneToMany(() => CHAMADO, chamado => chamado.)
+    // chamados: CHAMADO[]
 }
