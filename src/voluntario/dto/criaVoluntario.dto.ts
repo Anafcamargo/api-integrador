@@ -2,10 +2,10 @@
 
 import { IsEmail, IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
-import { EmailUnico } from "../validacao/email.validator";
+// import { EmailUnico } from "../validacao/email.validator";
 
  
-export class criaVoluntarioDTO{
+export class CriaVoluntarioDTO{
     @IsString()
     @IsNotEmpty({message:"Nome não pode ser vazio"}) 
     @ApiProperty({
@@ -29,7 +29,7 @@ export class criaVoluntarioDTO{
     NASCIMENTO: Date;
 
   
-    @EmailUnico({message: "Email repetido"})
+    // @EmailUnico({message: "Email repetido"})
     @IsEmail(undefined, {message: "email inválido"})
     @ApiProperty({
         example: "ana@teste.com",
@@ -64,7 +64,7 @@ export class criaVoluntarioDTO{
         example: "Numero da casa",
         description: "Numero da casa do usuário, deve ser informado um texto com o numero"
     })
-    NUMERO_CASA: string;
+    NUMEROCASA: string;
 
     @IsString()
     @ApiProperty({

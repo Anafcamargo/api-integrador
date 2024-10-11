@@ -1,38 +1,42 @@
-import { ChamadoService } from './chamado.service';
-import { DateOptions } from './../../node_modules/@sinclair/typebox/typebox.d';
+
 import { RetornoCadastroDTO, RetornoObjDTO } from 'src/dto/retorno.dto';
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-import { CHAMADO } from './chamado.entity';
-import { CriaChamadoDTO } from './dto/criaChamados.dto';
+import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import { CriachamadosDTO } from './dto/criachamados.dto';
+import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { chamados } from './chamado.entity';
+import { chamadosService } from './chamado.service';
 
-@Controller("/chamado")
-export class ChamadoController{
-    constructor(private readonly ChamadoService: ChamadoService){
-
-    }
+@ApiTags('chamados')
+@Controller("/chamados")
+export class chamadosController {
+    constructor(private readonly chamadosService: chamadosService) {}
 
     @Get("listar")
-    async listar (): Promise<CHAMADO[]>{
-        return this.ChamadoService.listar();
+    @ApiResponse({ status: 200, description: 'Lista todos os chamadoss.' })
+    async listar(): Promise<chamados[]> {
+        return this.chamadosService.listar();
     }
 
     @Post("")
-    async criaChamado(@Body() dados: CriaChamadoDTO): Promise<RetornoCadastroDTO>{
-        return this.ChamadoService.inserir(dados)
+    @ApiResponse({ status: 201, description: 'chamados cadastrado com sucesso.' })
+    async criachamados(@Body() dados: CriachamadosDTO): Promise<RetornoCadastroDTO> {
+        return this.chamadosService.inserir(dados);
     }
 
-    // @Put (":id")
-    // async alterarChamado(@Body() dados: AlteraChamadoDTO, @Param("id") id: string): Promise<RetornoCadastroDTO>{
-    //     return this.ChamadoService.alterar(id,dados)
-    // }
-
-    @Get("ID-:id")
-    async listarID(@Param("id") id:string): Promise<CHAMADO>{
-        return this.ChamadoService.localizarID(id);
+    @Get(":id")
+    @ApiResponse({ status: 200, description: 'Retorna o chamados correspondente ao ID.' })
+    async listarID(@Param("id") id: string): Promise<chamados> {
+        return this.chamadosService.localizarID(id);
     }
 
     @Delete("remove-:id")
-    async removeChamado(@Param("id") id: string): Promise<RetornoObjDTO>{
-        return this.ChamadoService.remover(id);
+    @ApiResponse({ status: 200, description: 'chamados excluído com sucesso.' })
+    async removechamados(@Param("id") id: string): Promise<RetornoObjDTO> {
+        return this.chamadosService.remover(id);
     }
+
+    // @Put(":id")
+    // async alterarchamados(@Body() dados: AlterachamadosDTO, @Param("id") id: string): Promise<RetornoCadastroDTO> {
+    //     return this.chamadosService.alterar(id, dados);
+    // }
 }

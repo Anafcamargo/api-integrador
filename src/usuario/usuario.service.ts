@@ -3,8 +3,8 @@ import { Repository } from "typeorm";
 import {v4 as uuid} from "uuid";
 import {RetornoCadastroDTO, RetornoObjDTO} from "src/dto/retorno.dto";
 import { USUARIO } from "./usuario.entity";
-import { criaUsuarioDTO } from "./dto/criaUsuario.dto";
-import { alteraUsuarioDTO } from "./dto/alteraUsuario.dto";
+import { CriaUsuarioDTO } from "./dto/criaUsuario.dto";
+import { AlteraUsuarioDTO} from "./dto/alteraUsuario.dto";
 
 
 
@@ -19,7 +19,7 @@ export class UsuarioService {
         return this.usuarioRepository.find();
     }
 
-    async inserir (dados: criaUsuarioDTO) : Promise<RetornoCadastroDTO>{
+    async inserir (dados: CriaUsuarioDTO) : Promise<RetornoCadastroDTO>{
         let usuario = new USUARIO();
         usuario.ID = uuid();
         usuario.NOME = dados.NOME;
@@ -76,7 +76,7 @@ export class UsuarioService {
         });
     }
 
-    async alterar (id: string, dados: alteraUsuarioDTO) : Promise <RetornoCadastroDTO>{
+    async alterar (id: string, dados: AlteraUsuarioDTO) : Promise <RetornoCadastroDTO>{
         const usuario = await this.localizarID(id);
 
         Object.entries(dados).forEach(

@@ -2,7 +2,7 @@
 // import { IsNotEmpty, IsString } from "class-validator";
 
 
-// export class AlteraChamadoDTO {
+// export class AlterachamadosDTO {
 //     @IsString()
 //     @Optional()
 //     @IsNotEmpty ({message: "Nome não pode ser vazio"})

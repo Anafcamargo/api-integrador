@@ -1,26 +1,26 @@
 
+
 import { Module } from '@nestjs/common';
-import { emailUnicoValidator } from './validacao/email.validator';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { voluntarioController } from './voluntario.controller';
-import { voluntarioProviders } from './voluntario.providers';
 import { VoluntarioService } from './voluntario.service';
+import { voluntarioProviders } from './voluntario.providers';
 import { DatabaseModule } from 'src/database/database.module';
-
-
-
+import { VOLUNTARIO } from './voluntario.entity';
+// import { validarEmail } from './validacao/email.validator';
 
 @Module({
-  
-  imports: [DatabaseModule],
+  imports: [
+    DatabaseModule,
+    TypeOrmModule.forFeature([VOLUNTARIO])  // Register VOLUNTARIO entity
+  ],
   controllers: [voluntarioController],
-  providers:[
+  providers: [
     ...voluntarioProviders,
     VoluntarioService,
-    emailUnicoValidator
+    // validarEmail
   ],
-  
+  exports: [VoluntarioService],
 })
-
-export class voluntarioModule {} 
-
-
+export class VoluntarioModule {}

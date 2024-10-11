@@ -1,13 +1,12 @@
 
-import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength} from "class-validator";
-import { EmailUnico } from "../validacao/email.validator";
+import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
+// import { EmailUnico } from "../validacao/email.validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
-export class alteraVoluntarioDTO{
+export class alteraVoluntarioDTO {
 
     @IsString()
-    @IsNotEmpty({message: "nome não pode ser vazio"}) 
-    @IsOptional()
+    @IsNotEmpty({ message: "Nome não pode ser vazio" })
     @ApiPropertyOptional({
         example: "Ana",
         description: "Nome do usuário, deve ser informado um texto contendo o nome"
@@ -17,13 +16,13 @@ export class alteraVoluntarioDTO{
     @IsString()
     @IsOptional()
     @ApiPropertyOptional({
-        example: "CPF",
+        example: "12345678901", // Example CPF
         description: "CPF do usuário, deve ser informado um texto com a numeração"
     })
     CPF: string;
-    
-    @EmailUnico({message: "Email repetido"})
-    @IsEmail(undefined, {message: "email inválido"})
+
+    // @EmailUnico({ message: "Email já está em uso" })
+    @IsEmail({}, { message: "Email inválido" })
     @IsOptional()
     @ApiPropertyOptional({
         example: "ana@teste.com",
@@ -31,26 +30,26 @@ export class alteraVoluntarioDTO{
     })
     EMAIL: string;
 
-    @MinLength(6, {message: "senha deve ter no minimo 6 digitos"})
+    @MinLength(6, { message: "Senha deve ter pelo menos 6 dígitos" })
     @IsOptional()
     @ApiPropertyOptional({
         example: "senha123",
-        description: "Senha do usuário, deve ter pelo menos 6 digitos"
+        description: "Senha do usuário, deve ter pelo menos 6 dígitos"
     })
-    SENHA:string;
-    
-    @IsNumber()
+    SENHA: string;
+
+    @IsNumber({}, { message: "Ano de nascimento deve ser um número" })
     @IsOptional()
     @ApiPropertyOptional({
-        example: "1990",
-        description: "Ano de nascimento do usuário, deve ser informado como Numero"
+        example: 1990,
+        description: "Ano de nascimento do usuário, deve ser informado como um número"
     })
-    NASCIMENTO: Date;
+    NASCIMENTO: Date; // Use number or Date depending on your preference
 
     @IsString()
     @IsOptional()
     @ApiPropertyOptional({
-         example: "Rua",
+        example: "Rua das Flores",
         description: "Endereço do usuário, deve ser informado um texto com o nome da rua"
     })
     ENDERECO: string;
@@ -58,15 +57,15 @@ export class alteraVoluntarioDTO{
     @IsString()
     @IsOptional()
     @ApiPropertyOptional({
-        example: "Numero da casa",
-        description: "Numero da casa do usuário, deve ser informado um texto com o numero"
+        example: "123",
+        description: "Número da casa do usuário, deve ser informado um texto com o número"
     })
-    NUMERO_CASA: string;
+    NUMEROCASA: string;
 
     @IsString()
     @IsOptional()
     @ApiPropertyOptional({
-        example: "Bairro",
+        example: "Jardim",
         description: "Bairro do usuário, deve ser informado um texto com o nome do bairro"
     })
     BAIRRO: string;
@@ -74,17 +73,16 @@ export class alteraVoluntarioDTO{
     @IsString()
     @IsOptional()
     @ApiPropertyOptional({
-        example: "12123412349",
-        description: "Telefone do usuário, deve ser informado um texto apenas com os numeros do telefone"
+        example: "11987654321", // Example phone number
+        description: "Telefone do usuário, deve ser informado um texto apenas com os números do telefone"
     })
     TELEFONE: string;
 
     @IsString()
     @IsOptional()
     @ApiPropertyOptional({
-        example: "Cidade",
-        description: "Cidade do usuário, deve ser informado um texto com o nome do cidade"
+        example: "São Paulo",
+        description: "Cidade do usuário, deve ser informado um texto com o nome da cidade"
     })
     CIDADE: string;
 }
-   

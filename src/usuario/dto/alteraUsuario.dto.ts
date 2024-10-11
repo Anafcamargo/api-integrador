@@ -1,34 +1,32 @@
 
+
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { Optional } from "@nestjs/common";
 
-export class alteraUsuarioDTO{
-
+export class AlteraUsuarioDTO {
     
     @IsString()
-    @IsNotEmpty({message: "nome não pode ser vazio"})
-    @Optional()
+    @IsNotEmpty({ message: "Nome não pode ser vazio" })
+    @IsOptional()
     @ApiPropertyOptional({
         example: "Alecrim",
         description: "Nome do usuário, deve ser informado um texto contendo o nome"
     })
-    NOME: string;
-    
+    readonly NOME?: string; // Torne a propriedade opcional
 
     @IsString()
-    @Optional()
+    @IsOptional()
     @ApiPropertyOptional({
         example: "12123412349",
-        description: "Telefone do usuário, deve ser informado um texto apenas com os numeros do telefone"
+        description: "Telefone do usuário, deve ser informado um texto apenas com os números do telefone"
     })
-    TELEFONE: string;
+    readonly TELEFONE?: string; // Torne a propriedade opcional
 
     @IsString()
-    @Optional()
-    @ApiProperty({
-        example: "12123412349",
+    @IsOptional()
+    @ApiPropertyOptional({
+        example: "senhaSegura123",
         description: "Senha do usuário, deve ser informado um texto com a senha."
     })
-    SENHA: string;
+    readonly SENHA?: string; // Torne a propriedade opcional
 }

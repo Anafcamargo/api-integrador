@@ -1,110 +1,64 @@
+
 import { Inject, Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
-import {v4 as uuid} from "uuid";
-import {RetornoCadastroDTO, RetornoObjDTO} from "src/dto/retorno.dto";
-import { CHAMADO } from "./chamado.entity";
-import { CriaChamadoDTO } from "./dto/criaChamados.dto";
-
+import { v4 as uuid } from "uuid";
+import { RetornoCadastroDTO, RetornoObjDTO } from "src/dto/retorno.dto";
+import { CriachamadosDTO } from "./dto/criachamados.dto";
+import {  chamados } from "./chamado.entity";
 
 
 
 @Injectable ()
-export class ChamadoService {
+export class chamadosService {
     constructor(
-        @Inject("CHAMADO_REPOSITORY")
-        private chamadoRepository: Repository<CHAMADO>,
-    ){}
+        @Inject("chamados_REPOSITORY")
+        private chamadosRepository: Repository<chamados>, 
+    ) {}
 
-    async listar (): Promise <CHAMADO[]> {
-        return this.chamadoRepository.find();
+    async listar(): Promise<chamados[]> {
+        return this.chamadosRepository.find();
     }
 
-    async inserir (dados: CriaChamadoDTO) : Promise<RetornoCadastroDTO>{
-        let chamado = new CHAMADO();
+    async inserir(dados: CriachamadosDTO): Promise<RetornoCadastroDTO> {
+        let chamado = new chamados();
         chamado.ID = uuid();
         chamado.TELEFONE = dados.TELEFONE;
         chamado.DESCRICAO = dados.DESCRICAO;
         chamado.CATEGORIA = dados.CATEGORIA;
+        chamado.IDUSUARIO = dados.IDUSUARIO;
+        chamado.IDVOLUNTARIO = dados.IDVOLUNTARIO;
 
-
-        return this.chamadoRepository.save(chamado)
-        .then((result) => {
-            return <RetornoCadastroDTO>{
-                id: chamado.ID,
-                message: "chamado cadastrado!"
-            };
-        })
-        .catch((error) => {
-            return <RetornoCadastroDTO>{
-            id: "",
-            message: "Houve um erro ao cadastrar." + error.message
-        };
-        })
+        try {
+            await this.chamadosRepository.save(chamado);
+            return { id: chamados.id, message: "chamados cadastrado!" };
+        } catch (error) {
+            return { id: "", message: "Houve um erro ao cadastrar: " + error.message };
+        }
     }
 
-    localizarID(ID: string) : Promise<CHAMADO> {
-        return this.chamadoRepository.findOne({
-            where: {
-                ID,
-            },
-        });
+    async localizarID(ID: string): Promise<chamados> {
+        return this.chamadosRepository.findOne({ where: { ID } });
     }
 
-    localizarCategoria(CATEGORIA: string) : Promise<CHAMADO> {
-        return this.chamadoRepository.findOne({
-            where: {
-                CATEGORIA,
-            },
-        });
+    async localizarCategoria(CATEGORIA: string): Promise<chamados> {
+        return this.chamadosRepository.findOne({ where: { CATEGORIA } });
     }
 
-    async remover (id: string) : Promise <RetornoObjDTO>{
-        const chamado = await this.localizarID(id);
+    async remover(id: string): Promise<RetornoObjDTO> {
+        const chamados = await this.localizarID(id);
 
-        return this.chamadoRepository.remove(chamado)
-        .then((result) => {
-            return <RetornoObjDTO>{
-                return: chamado,
-                message: "chamado excluido!"
-            };
-        })
+        if (!chamados) {
+            return { return: null, message: "chamados não encontrado." };
+        }
 
-        .catch((error) => {
-            return <RetornoObjDTO>{
-                return: chamado,
-                message: " Houve um erro ao excluir." + error.message
-            };
-        });
+        try {
+            await this.chamadosRepository.remove(chamados);
+            return { return: chamados, message: "chamados excluído!" };
+        } catch (error) {
+            return { return: chamados, message: "Houve um erro ao excluir: " + error.message };
+        }
     }
 
-    // async alterar (id: string, dados: AlteraChamadoDTO) : Promise <RetornoCadastroDTO>{
-    //     const chamado = await this.localizarID(id);
-
-    //     Object.entries(dados).forEach(
-    //         ([chave, valor]) => {
-    //             if (chave === "id"){
-    //                 return;
-    //             }
-    //             chamado[chave] = valor;
-    //         }
-    //     )
-
-    //     return this.chamadoRepository.save(chamado)
-    //     .then((result) => {
-    //         return <RetornoCadastroDTO>{
-    //             id: chamado.ID,
-    //             message: "Chamado alterado!"
-    //         };
-    //     })
-
-    //     .catch((error) => {
-    //         return <RetornoCadastroDTO>{
-    //             id: "",
-    //             message: " Houve um erro ao alterar." + error.message
-    //         };
-    //     });
-    // }
-
-    
-
+    // O método de alteração pode ser reativado se necessário.
 }
+

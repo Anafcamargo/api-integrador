@@ -1,26 +1,30 @@
 
 import { VOLUNTARIO } from "src/voluntario/voluntario.entity";
-import { Column, Entity, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
-
+import { Column, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class CHAMADO {
-    @PrimaryColumn ()
+export class chamados {
+    @PrimaryGeneratedColumn('uuid') 
     ID: string;
 
-    @Column ({length:55})
+    @Column({ length: 55 })
     TELEFONE: string;
 
-    @Column ({length:355})
-    DESCRICAO:string;
+    @Column({ length: 355 })
+    DESCRICAO: string;
 
-    @Column ({length:155})
-    CATEGORIA:string;
-    
-   
+    @Column({ length: 155 })
+    CATEGORIA: string;
 
-    @OneToOne(() => VOLUNTARIO, voluntario => voluntario.chamado)
-    voluntarios: VOLUNTARIO[]
+    @Column({ length: 155 })
+    IDUSUARIO: string;
+
+    @Column({ length: 155 })
+    IDVOLUNTARIO: string;
+
+
+    @ManyToOne(() => VOLUNTARIO, voluntario => voluntario.chamados)
+    voluntario: VOLUNTARIO; // Relaciona um único voluntário ao chamados
     usuario: any;
-    voluntario: any;
+    static id: string;
 }

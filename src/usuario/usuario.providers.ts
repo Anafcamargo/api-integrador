@@ -6,8 +6,8 @@ import { DataSource } from "typeorm";
 
 export const usuarioProviders = [
     {
-        provide: "USUARIO_REPOSITORY",
-        useFactory: (DataSource: DataSource) => DataSource.getRepository(USUARIO),
-        Inject: ["DATA_SOURCE"],
+        provide: 'USUARIO_REPOSITORY',
+        useFactory: (dataSource: DataSource) => dataSource.getRepository<USUARIO>(USUARIO),
+        inject: ['DATA_SOURCE'],
     },
 ];
