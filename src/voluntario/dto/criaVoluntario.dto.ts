@@ -26,7 +26,7 @@ export class criaVoluntarioDTO{
         example: "1990-11-27",
         description: "Ano de nascimento do usuário, deve ser informado como Numero"
     })
-    NASCIMENTO: number;
+    NASCIMENTO: Date;
 
   
     @EmailUnico({message: "Email repetido"})

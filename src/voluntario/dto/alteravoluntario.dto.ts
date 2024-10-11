@@ -45,7 +45,7 @@ export class alteraVoluntarioDTO{
         example: "1990",
         description: "Ano de nascimento do usuário, deve ser informado como Numero"
     })
-    NASCIMENTO: number;
+    NASCIMENTO: Date;
 
     @IsString()
     @IsOptional()

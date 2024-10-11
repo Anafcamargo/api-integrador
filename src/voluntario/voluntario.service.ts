@@ -12,7 +12,7 @@ import { alteraVoluntarioDTO } from "./dto/alteravoluntario.dto";
 @Injectable ()
 export class VoluntarioService {
     constructor(
-        @Inject("Voluntario_REPOSITORY")
+        @Inject("VOLUNTARIO_REPOSITORY")
         private voluntarioRepository: Repository<VOLUNTARIO>,
     ){}
 

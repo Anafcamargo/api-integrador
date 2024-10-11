@@ -3,7 +3,7 @@ export class listaChamadoDTO{
         readonly ID: string,
         readonly TELEFONE: string,
         readonly DESCRICAO: string,
-        readonly TIPO: string
+        readonly CATEGORIA: string
 
     ){}
 }

@@ -11,6 +11,6 @@ export class CriaChamadoDTO {
     DESCRICAO: string;
 
     @IsString()
-    @IsNotEmpty({message: " Tipo não pode ser vazio"})
-    TIPO: string;
+    @IsNotEmpty({message: " CATEGORIA não pode ser vazio"})
+    CATEGORIA: string;
 }

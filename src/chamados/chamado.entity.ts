@@ -1,5 +1,6 @@
 
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { VOLUNTARIO } from "src/voluntario/voluntario.entity";
+import { Column, Entity, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
 
 
 @Entity()
@@ -14,8 +15,12 @@ export class CHAMADO {
     DESCRICAO:string;
 
     @Column ({length:155})
-    TIPO:string;
+    CATEGORIA:string;
+    
+   
 
-    // @OneToMany(() => CHAMADO, chamado => chamado.)
-    // chamados: CHAMADO[]
+    @OneToOne(() => VOLUNTARIO, voluntario => voluntario.chamado)
+    voluntarios: VOLUNTARIO[]
+    usuario: any;
+    voluntario: any;
 }

@@ -24,7 +24,7 @@ export class ChamadoService {
         chamado.ID = uuid();
         chamado.TELEFONE = dados.TELEFONE;
         chamado.DESCRICAO = dados.DESCRICAO;
-        chamado.TIPO = dados.TIPO;
+        chamado.CATEGORIA = dados.CATEGORIA;
 
 
         return this.chamadoRepository.save(chamado)
@@ -50,13 +50,13 @@ export class ChamadoService {
         });
     }
 
-    // localizarNome(NOME: string) : Promise<CHAMADO> {
-    //     return this.chamadoRepository.findOne({
-    //         where: {
-    //             NOME,
-    //         },
-    //     });
-    // }
+    localizarCategoria(CATEGORIA: string) : Promise<CHAMADO> {
+        return this.chamadoRepository.findOne({
+            where: {
+                CATEGORIA,
+            },
+        });
+    }
 
     async remover (id: string) : Promise <RetornoObjDTO>{
         const chamado = await this.localizarID(id);

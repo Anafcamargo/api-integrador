@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { CHAMADO } from "src/chamados/chamado.entity";
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class USUARIO {
@@ -6,7 +7,7 @@ export class USUARIO {
     ID: string;
 
     @Column ({length:255})
-    NOME: string;
+    NOME: string; 
 
     @Column({length:20})
     TELEFONE: string;
@@ -14,4 +15,6 @@ export class USUARIO {
     @Column({length:55})
     SENHA: string;
 
+    @OneToMany(() => CHAMADO, chamados => chamados.usuario)
+    chamado: CHAMADO[];
 }
