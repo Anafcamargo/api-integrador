@@ -18,7 +18,7 @@ export class voluntarioController{
         return this.VoluntarioService.listar();
     }
 
-    @Post("")
+    @Post("cadastro")
     @ApiCreatedResponse({ description: 'Usuário criado com sucesso' })
     async criaVoluntario(@Body() dados: CriaVoluntarioDTO): Promise<RetornoCadastroDTO> {
         return this.VoluntarioService.inserir(dados);

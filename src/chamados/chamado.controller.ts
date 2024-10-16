@@ -12,13 +12,13 @@ export class chamadosController {
     constructor(private readonly chamadosService: chamadosService) {}
 
     @Get("listar")
-    @ApiResponse({ status: 200, description: 'Lista todos os chamadoss.' })
+    @ApiResponse({ status: 200, description: 'Lista todos os chamados.' })
     async listar(): Promise<chamados[]> {
         return this.chamadosService.listar();
     }
 
-    @Post("")
-    @ApiResponse({ status: 201, description: 'chamados cadastrado com sucesso.' })
+    @Post("cadastro")
+    @ApiResponse({ status: 201, description: 'chamado cadastrado com sucesso.' })
     async criachamados(@Body() dados: CriachamadosDTO): Promise<RetornoCadastroDTO> {
         return this.chamadosService.inserir(dados);
     }
