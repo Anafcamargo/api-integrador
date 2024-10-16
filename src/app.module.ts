@@ -8,6 +8,7 @@ import { VOLUNTARIO } from './voluntario/voluntario.entity';
 import { Any } from 'typeorm';
 import { join } from 'path';
 import { chamadosModule } from './chamados/chamado.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { chamadosModule } from './chamados/chamado.module';
     VoluntarioModule,
     UsuarioModule,
     chamadosModule,
+    FilesModule
   ],
   controllers: [],
   providers: [
