@@ -8,6 +8,9 @@ export class chamados {
     ID: string;
 
     @Column({ length: 55 })
+    NOME: string;
+
+    @Column({ length: 55 })
     TELEFONE: string;
 
     @Column({ length: 355 })

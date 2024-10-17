@@ -10,6 +10,8 @@ import { AlteraUsuarioDTO} from "./dto/alteraUsuario.dto";
 
 @Injectable ()
 export class UsuarioService {
+    encontrarPorNome: any;
+    jwtService: any;
     constructor(
         @Inject("USUARIO_REPOSITORY")
         private usuarioRepository: Repository<USUARIO>,
@@ -28,7 +30,7 @@ export class UsuarioService {
 
         return this.usuarioRepository.save(usuario)
         .then((result) => {
-            return <RetornoCadastroDTO>{
+            return <RetornoCadastroDTO>{ 
                 id: usuario.ID,
                 message: "Usuário cadastrado!"
             };
@@ -39,6 +41,23 @@ export class UsuarioService {
             message: "Houve um erro ao cadastrar." + error.message
         };
         })
+    }
+
+    async login(NOME: string, SENHA: string): Promise<USUARIO | null> {
+        const usuario = await this.encontrarPorNome(NOME);
+        
+        if (usuario && usuario.senha === SENHA) { // Aqui você deve usar um hash para senhas
+            return usuario;
+        }
+
+        return null;
+    }
+
+    gerarToken(usuarioId: string): string {
+        // Implemente a lógica para gerar o token, pode ser usando JWT
+        // Exemplo:
+        const payload = { id: usuarioId };
+        return this.jwtService.sign(payload); // Supondo que você tenha injetado o JwtService
     }
 
     localizarID(ID: string) : Promise<USUARIO> {

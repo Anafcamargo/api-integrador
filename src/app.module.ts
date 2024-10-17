@@ -9,9 +9,12 @@ import { Any } from 'typeorm';
 import { join } from 'path';
 import { chamadosModule } from './chamados/chamado.module';
 import { FilesModule } from './files/files.module';
+import { AuthModule } from './auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     DatabaseModule,
     TypeOrmModule.forRoot({
       type: 'mysql', // or 'postgres', etc.
@@ -26,7 +29,8 @@ import { FilesModule } from './files/files.module';
     VoluntarioModule,
     UsuarioModule,
     chamadosModule,
-    FilesModule
+    FilesModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [

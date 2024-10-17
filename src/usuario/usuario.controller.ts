@@ -1,5 +1,5 @@
 import { UsuarioService } from './usuario.service';
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, UnauthorizedException } from "@nestjs/common";
 import { CriaUsuarioDTO } from "./dto/criaUsuario.dto";
 import { USUARIO } from "./usuario.entity";
 import { v4 as uuid } from 'uuid';
@@ -43,6 +43,21 @@ export class UsuarioController {
     @ApiResponse({ status: 200, description: 'Usuário removido com sucesso' })
     async removeUsuario(@Param("id") id: string): Promise<RetornoObjDTO> {
         return this.usuarioService.remover(id);
+    }
+
+    @Post("login")
+    @ApiResponse({ status: 200, description: 'Login realizado com sucesso' })
+    @ApiResponse({ status: 401, description: 'Credenciais inválidas' })
+    async loginUsuario(@Body() dados: LoginUsuarioDTO): Promise<{ token: string }> {
+        const usuario = await this.usuarioService.login(dados.NOME, dados.SENHA);
+        
+        if (!usuario) {
+            throw new UnauthorizedException('Credenciais inválidas');
+        }
+        
+        // Aqui você pode usar um serviço de autenticação para gerar um token
+        const token = this.usuarioService.gerarToken(usuario.ID);
+        return { token };
     }
 
     // Add other methods as needed

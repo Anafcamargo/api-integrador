@@ -1,6 +1,6 @@
 
 
-import { IsEmail, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 // import { EmailUnico } from "../validacao/email.validator";
 
@@ -26,7 +26,7 @@ export class CriaVoluntarioDTO{
         example: "1990-11-27",
         description: "Ano de nascimento do usuário, deve ser informado como Numero"
     })
-    NASCIMENTO: Date;
+    NASCIMENTO: number;
 
   
     // @EmailUnico({message: "Email repetido"})

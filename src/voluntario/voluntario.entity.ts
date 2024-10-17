@@ -18,7 +18,7 @@ export class VOLUNTARIO {
     CPF: string;
 
     @Column()
-    NASCIMENTO: Date;
+    NASCIMENTO: number;
 
     @Column({ length: 55 })
     EMAIL: string;

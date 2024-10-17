@@ -5,7 +5,7 @@ export class ListaVoluntarioDTO{
             readonly ID: string, 
             readonly NOME: string,
             readonly CPF: string,
-            readonly NASCIMENTO: Date,
+            readonly NASCIMENTO: number,
             readonly EMAIL: string,
             readonly SENHA: string,
             readonly TELEFONE: string, 

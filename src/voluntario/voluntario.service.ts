@@ -31,10 +31,19 @@ export class VoluntarioService {
     }
 
     async inserir(dados: CriaVoluntarioDTO): Promise<RetornoCadastroDTO> {
-        const voluntario = this.voluntarioRepository.create({
-            ID: uuid(),
-            ...dados,
-        });
+        let voluntario = new VOLUNTARIO();
+        voluntario.ID = uuid();
+        voluntario.NOME = dados.NOME;
+        voluntario.CPF = dados.CPF;
+        voluntario.NASCIMENTO = dados.NASCIMENTO;
+        voluntario.EMAIL = dados.EMAIL;
+        voluntario.SENHA = dados.SENHA;
+        voluntario.TELEFONE = dados.TELEFONE;
+        voluntario.ENDERECO = dados.ENDERECO;
+        voluntario.NUMEROCASA = dados.NUMEROCASA;
+        voluntario.BAIRRO = dados.BAIRRO;
+        voluntario.CIDADE = dados.CIDADE;
+       
 
         try {
             await this.voluntarioRepository.save(voluntario);

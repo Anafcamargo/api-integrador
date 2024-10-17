@@ -3,6 +3,10 @@ import { IsNotEmpty, IsString } from "class-validator";
 
 export class CriachamadosDTO {
     @IsString()
+    @IsNotEmpty ({message: "Nome não pode ser vazio"})
+    NOME: string;
+
+    @IsString()
     @IsNotEmpty ({message: "Telefone não pode ser vazio"})
     TELEFONE: string;
 
