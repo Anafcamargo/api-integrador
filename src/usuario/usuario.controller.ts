@@ -21,7 +21,7 @@ export class UsuarioController {
         return this.usuarioService.listar();
     }
 
-    @Post("")
+    @Post("cadastro")
     @ApiCreatedResponse({ description: 'Usuário criado com sucesso' })
     async criaUsuario(@Body() dados: CriaUsuarioDTO): Promise<RetornoCadastroDTO> {
         return this.usuarioService.inserir(dados);

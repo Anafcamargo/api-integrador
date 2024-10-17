@@ -23,7 +23,7 @@ export class chamadosController {
         return this.chamadosService.inserir(dados);
     }
 
-    @Get(":id")
+    @Get("ID-:id")
     @ApiResponse({ status: 200, description: 'Retorna o chamados correspondente ao ID.' })
     async listarID(@Param("id") id: string): Promise<chamados> {
         return this.chamadosService.localizarID(id);

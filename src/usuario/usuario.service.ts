@@ -76,34 +76,29 @@ export class UsuarioService {
         });
     }
 
-    async alterar (id: string, dados: AlteraUsuarioDTO) : Promise <RetornoCadastroDTO>{
-        const usuario = await this.localizarID(id);
-
-        Object.entries(dados).forEach(
-            ([chave, valor]) => {
-                if (chave === "id"){
-                    return;
-                }
-                usuario[chave] = valor;
-            }
-        )
-
-        return this.usuarioRepository.save(usuario)
-        .then((result) => {
-            return <RetornoCadastroDTO>{
-                id: usuario.ID,
-                message: "Usuário alterado!"
-            };
-        })
-
-        .catch((error) => {
-            return <RetornoCadastroDTO>{
-                id: "",
-                message: " Houve um erro ao alterar." + error.message
-            };
-        });
-    }
-
+    async alterar(ID: string, dados: AlteraUsuarioDTO): Promise<RetornoCadastroDTO> {
+        try {
+            const usuario = await this.localizarID(ID);
+           
+            const updatedUsuario = { ...usuario, ...dados };
+            delete updatedUsuario.ID; 
     
+            const result = await this.usuarioRepository.save(updatedUsuario);
+    
+            return {
+                id: result.ID,
+                message: "Usuário alterado!"
+            } as RetornoCadastroDTO;
+    
+        } catch (error) {
+            return {
+                id: "",
+                message: "Houve um erro ao alterar: " + error.message
+            } as RetornoCadastroDTO;
+        }
+    }
+    
+
+   
 
 }

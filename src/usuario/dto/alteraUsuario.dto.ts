@@ -12,7 +12,7 @@ export class AlteraUsuarioDTO {
         example: "Alecrim",
         description: "Nome do usuário, deve ser informado um texto contendo o nome"
     })
-    readonly NOME?: string; // Torne a propriedade opcional
+    readonly NOME: string; // Torne a propriedade opcional
 
     @IsString()
     @IsOptional()
