@@ -24,8 +24,12 @@ export class UsuarioController {
     @Post("cadastro")
     @ApiCreatedResponse({ description: 'Usuário criado com sucesso' })
     async criaUsuario(@Body() dados: CriaUsuarioDTO): Promise<RetornoCadastroDTO> {
-        return this.usuarioService.inserir(dados);
+        const usuarioCriado = await this.usuarioService.inserir(dados);
+        
+        // Retorna um objeto com a mensagem e, se necessário, o ID do usuário
+        return { id: usuarioCriado.id, message: "Usuário criado com sucesso! Faça login para continuar." };
     }
+    
 
     @Put(":id")
     @ApiResponse({ status: 200, description: 'Usuário alterado com sucesso' })
@@ -45,19 +49,17 @@ export class UsuarioController {
         return this.usuarioService.remover(id);
     }
 
-    @Post("login")
+    @Post('login')
     @ApiResponse({ status: 200, description: 'Login realizado com sucesso' })
     @ApiResponse({ status: 401, description: 'Credenciais inválidas' })
-    async loginUsuario(@Body() dados: LoginUsuarioDTO): Promise<{ token: string }> {
-        const usuario = await this.usuarioService.login(dados.NOME, dados.SENHA);
-        
+    async loginUsuario(@Body() dados: LoginUsuarioDTO): Promise<{ message: string }> {
+        const usuario = await this.usuarioService.login(dados.TELEFONE, dados.SENHA);
+    
         if (!usuario) {
-            throw new UnauthorizedException('Credenciais inválidas');
+         throw new UnauthorizedException('Credenciais inválidas');
         }
-        
-        // Aqui você pode usar um serviço de autenticação para gerar um token
-        const token = this.usuarioService.gerarToken(usuario.ID);
-        return { token };
+    
+        return { message: 'Login realizado com sucesso' }; 
     }
 
     // Add other methods as needed

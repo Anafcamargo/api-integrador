@@ -43,21 +43,28 @@ export class UsuarioService {
         })
     }
 
-    async login(NOME: string, SENHA: string): Promise<USUARIO | null> {
-        const usuario = await this.encontrarPorNome(NOME);
+    async login(TELEFONE: string, SENHA: string): Promise<USUARIO | null> {
+        const usuario = await this.localizarTelefone(TELEFONE);
         
-        if (usuario && usuario.senha === SENHA) { // Aqui você deve usar um hash para senhas
-            return usuario;
+        if (usuario && usuario.SENHA === SENHA) {
+            return usuario; // Retorna o usuário se a senha estiver correta
         }
-
-        return null;
+        
+        return null; // Retorna null se as credenciais forem inválidas
     }
 
-    gerarToken(usuarioId: string): string {
-        // Implemente a lógica para gerar o token, pode ser usando JWT
-        // Exemplo:
-        const payload = { id: usuarioId };
-        return this.jwtService.sign(payload); // Supondo que você tenha injetado o JwtService
+    async localizarTelefone(telefone: string) {
+        return await this.usuarioRepository.findOne({
+            where: {
+                TELEFONE: telefone,
+            },
+        });
+    }
+
+    async validaTelefone(telefoneNovo: string) {
+        const possivelUsuario = await this.localizarTelefone(telefoneNovo);
+    
+        return (possivelUsuario == null);
     }
 
     localizarID(ID: string) : Promise<USUARIO> {

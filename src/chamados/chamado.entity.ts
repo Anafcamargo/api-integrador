@@ -22,8 +22,8 @@ export class chamados {
     @Column({ length: 155 })
     IDUSUARIO: string;
 
-    @Column({ length: 155 })
-    IDVOLUNTARIO: string;
+    // @Column({ length: 155 })
+    // IDVOLUNTARIO: string;
 
 
     @ManyToOne(() => VOLUNTARIO, voluntario => voluntario.chamados)

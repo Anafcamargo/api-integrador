@@ -1,5 +1,5 @@
 
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { v4 as uuid } from "uuid";
 import { RetornoCadastroDTO, RetornoObjDTO } from "src/dto/retorno.dto";
@@ -26,11 +26,11 @@ export class chamadosService {
         chamado.DESCRICAO = dados.DESCRICAO;
         chamado.CATEGORIA = dados.CATEGORIA;
         chamado.IDUSUARIO = dados.IDUSUARIO;
-        chamado.IDVOLUNTARIO = dados.IDVOLUNTARIO;
-
+        // chamado.IDVOLUNTARIO = dados.IDVOLUNTARIO;
+    
         try {
             await this.chamadosRepository.save(chamado);
-            return { id: chamados.id, message: "chamados cadastrado!" };
+            return { id: chamado.ID, message: "Chamado cadastrado!" }; // Corrigido aqui
         } catch (error) {
             return { id: "", message: "Houve um erro ao cadastrar: " + error.message };
         }
@@ -45,17 +45,17 @@ export class chamadosService {
     }
 
     async remover(id: string): Promise<RetornoObjDTO> {
-        const chamados = await this.localizarID(id);
-
-        if (!chamados) {
-            return { return: null, message: "chamados não encontrado." };
+        const chamado = await this.localizarID(id);
+    
+        if (!chamado) {
+            throw new NotFoundException("Chamado não encontrado."); // Usando exceção do NestJS
         }
-
+    
         try {
-            await this.chamadosRepository.remove(chamados);
-            return { return: chamados, message: "chamados excluído!" };
+            await this.chamadosRepository.remove(chamado);
+            return { return: chamado, message: "Chamado excluído!" };
         } catch (error) {
-            return { return: chamados, message: "Houve um erro ao excluir: " + error.message };
+            throw new InternalServerErrorException("Houve um erro ao excluir: " + error.message); // Exceção apropriada
         }
     }
 

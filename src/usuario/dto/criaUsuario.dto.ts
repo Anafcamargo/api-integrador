@@ -2,6 +2,7 @@
 
 import { IsNotEmpty, IsString, IsOptional, IsPhoneNumber, Length } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
+import { TelefoneUnico } from "../validacao/telefone.validator";
 
 export class CriaUsuarioDTO {
     @IsString()
@@ -12,13 +13,14 @@ export class CriaUsuarioDTO {
     })
     readonly NOME: string;
 
+
     @IsString()
-    @IsOptional() // Tornar opcional se você quiser permitir que o telefone não seja obrigatório
     @IsPhoneNumber('BR', { message: "Telefone deve ser um número válido." }) // Exemplo para o Brasil
     @ApiProperty({
         example: "12123412349",
         description: "Telefone do usuário, deve ser informado um texto apenas com os números do telefone"
     })
+    @TelefoneUnico({ message: 'Telefone já cadastrado' })
     readonly TELEFONE?: string;
 
     @IsString()
