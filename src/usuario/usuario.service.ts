@@ -10,9 +10,14 @@ import * as bcrypt from 'bcrypt';
 
 
 @Injectable ()
+
+
 export class UsuarioService {
+    
     encontrarPorNome: any;
     jwtService: any;
+
+    
     constructor(
         @Inject("USUARIO_REPOSITORY")
         private usuarioRepository: Repository<USUARIO>,
@@ -24,6 +29,10 @@ export class UsuarioService {
 
     async listar (): Promise <USUARIO[]> {
         return this.usuarioRepository.find();
+    }
+    async hashPassword(plainPassword: string): Promise<string> {
+        const SALT_ROUNDS = 10;
+        return await bcrypt.hash(plainPassword, SALT_ROUNDS);
     }
 
     async inserir (dados: CriaUsuarioDTO) : Promise<RetornoCadastroDTO>{

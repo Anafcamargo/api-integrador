@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -9,6 +9,7 @@ import jwt from 'jsonwebtoken';
 
 @Injectable()
 export class AuthService {
+    private readonly logger = new Logger(AuthService.name);
     constructor(
         @InjectRepository(USUARIO)
         private usuarioRepository: Repository<USUARIO>,
@@ -20,12 +21,14 @@ export class AuthService {
         // 1. Encontrar o usuário pelo telefone
         const usuario = await this.usuarioRepository.findOne({ where: { TELEFONE } });
         if (!usuario) {
+            this.logger.warn(`Usuário não encontrado com o telefone: ${TELEFONE}`);
             throw new UnauthorizedException('Credenciais inválidas');
         }
 
         // 2. Comparar a senha informada com a senha armazenada
         const isPasswordValid = await bcrypt.compare(SENHA, usuario.SENHA);
         if (!isPasswordValid) {
+            this.logger.warn(`Senha inválida para o telefone: ${TELEFONE}`);
             throw new UnauthorizedException('Credenciais inválidas');
         }
 
