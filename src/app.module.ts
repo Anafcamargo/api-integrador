@@ -11,6 +11,7 @@ import { chamadosModule } from './chamados/chamado.module';
 import { FilesModule } from './files/files.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModuleVoluntario } from './auth-voluntario/authv.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ConfigModule } from '@nestjs/config';
     chamadosModule,
     FilesModule,
     AuthModule,
+    AuthModuleVoluntario
   ],
   controllers: [],
   providers: [

@@ -56,9 +56,10 @@
 
 
 import { v4 as uuid} from 'uuid';
-import { Column, Entity, OneToMany, PrimaryColumn, BeforeInsert } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryColumn, BeforeInsert, BeforeUpdate } from "typeorm";
 import { ApiProperty } from '@nestjs/swagger';
 import { chamados } from 'src/chamados/chamado.entity';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class VOLUNTARIO {
@@ -96,6 +97,17 @@ export class VOLUNTARIO {
 
     @Column({ length: 55 })
     CIDADE: string;
+
+    IDVOLUNTARIO: string;
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async hashPassword() {
+        if (this.SENHA) {
+            const salt = await bcrypt.genSalt(10);
+            this.SENHA = await bcrypt.hash(this.SENHA, salt);
+        }
+    }
 
     @OneToMany(() => chamados, chamados => chamados.voluntario)
     chamados: chamados[];

@@ -9,9 +9,11 @@ import { UsuarioService } from "src/usuario/usuario.service";
 import { chamadosController } from "./chamado.controller";
 import { chamadossProviders } from "./chamado.providers";
 import { chamadosService } from "./chamado.service";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { VOLUNTARIO } from "src/voluntario/voluntario.entity";
  
 @Module({
-    imports: [DatabaseModule],
+    imports: [DatabaseModule, TypeOrmModule.forFeature([VOLUNTARIO])],
     controllers: [chamadosController],
     providers: [
         ...chamadossProviders,

@@ -1,6 +1,6 @@
 
 
-import { IsEmail, IsNotEmpty, MinLength } from "class-validator";
+import { IsEmail, IsNotEmpty, Length, MinLength } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class LoginVoluntarioDTO {
@@ -19,5 +19,6 @@ export class LoginVoluntarioDTO {
         example: "senha123",
         description: "Senha do voluntário, deve ter pelo menos 6 dígitos."
     })
+    @Length(6, 20)
     SENHA: string;
 }

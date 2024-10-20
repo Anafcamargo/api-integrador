@@ -43,19 +43,29 @@
 // }
 
 
-import { VoluntarioService } from './voluntario.service';
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+
+import { Body, Controller, Delete, Get, Param, Post, Put, Res, UseGuards, Request } from "@nestjs/common";
 import { CriaVoluntarioDTO } from "./dto/criaVoluntario.dto";
 import {VOLUNTARIO} from "./voluntario.entity";
 import {  ApiCreatedResponse, ApiResponse, ApiTags } from "@nestjs/swagger"; 
 import { RetornoCadastroDTO, RetornoObjDTO } from 'src/dto/retorno.dto';
-
+import { LoginVoluntarioDTO } from './dto/loginvoluntario.dto';
+import { Repository } from 'typeorm';
+import { Inject } from '@nestjs/common';
+import * as jwt from 'jsonwebtoken';
+import { Response } from 'express';
+import { VoluntarioService } from "./voluntario.service";
+import { RegisterVoluntarioDTO } from "./dto/RegisterVoluntario.DTO";
+import { AuthVoluntarioService } from "src/auth-voluntario/authservicev";
 
 @ApiTags('voluntario')
 @Controller('/voluntarios')
 export class voluntarioController{
     
-    constructor(private readonly VoluntarioService : VoluntarioService){} 
+    constructor(@Inject('VOLUNTARIO_REPOSITORY')
+    private readonly voluntarioRepository: Repository<VOLUNTARIO>,
+    private readonly VoluntarioService : VoluntarioService,
+    private readonly authVoluntarioService: AuthVoluntarioService){} 
 
     @Get("listar")
     @ApiResponse({ status: 200, description: 'Lista todos os usuários' })
@@ -63,10 +73,31 @@ export class voluntarioController{
         return this.VoluntarioService.listar();
     }
 
-    @Post("cadastro")
-    @ApiCreatedResponse({ description: 'Usuário criado com sucesso' })
-    async criaVoluntario(@Body() dados: CriaVoluntarioDTO): Promise<RetornoCadastroDTO> {
-        return this.VoluntarioService.inserir(dados);
+    @Post('cadastro')
+    async cadastrar(@Body() dados: CriaVoluntarioDTO, @Res() res: Response) {
+        const resultado = await this.VoluntarioService.inserir(dados);
+        return res.status(201).json(resultado);
+    }
+
+
+
+
+    @Post('login')
+    async login(@Body() loginDto: LoginVoluntarioDTO) {
+      const { EMAIL, SENHA } = loginDto;
+      return await this.authVoluntarioService.login(EMAIL, SENHA);
+    }  
+    
+
+    @Post('register')
+    async register(@Body() dados: RegisterVoluntarioDTO) {
+        return await this.VoluntarioService.register(dados);
+    }
+
+    @Get('voluntario/me')
+    // @UseGuards(AuthGuard()) // Protege a rota
+    async getVoluntario(@Request() req): Promise<VOLUNTARIO> {
+    return req.user; // Retorna o voluntário autenticado
     }
 
     @Put (":id")
