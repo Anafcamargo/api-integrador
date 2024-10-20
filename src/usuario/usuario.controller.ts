@@ -1,5 +1,6 @@
+
 import { UsuarioService } from './usuario.service';
-import { Body, Controller, Delete, Get, Param, Post, Put, UnauthorizedException } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Res, UnauthorizedException } from "@nestjs/common";
 import { CriaUsuarioDTO } from "./dto/criaUsuario.dto";
 import { USUARIO } from "./usuario.entity";
 import { v4 as uuid } from 'uuid';
@@ -8,12 +9,19 @@ import { ListaUsuarioDTO } from "./dto/listaUsuario.dto";
 import { LoginUsuarioDTO } from "./dto/loginUsuario.dto";
 import { AlteraUsuarioDTO } from "./dto/alteraUsuario.dto";
 import { ApiCreatedResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { RetornoCadastroDTO, RetornoObjDTO } from 'src/dto/retorno.dto';
+import { RetornoCadastroDTO, RetornoObjDTO } from 'src/dto/retorno.dto'; 
+import { Response } from 'express';
+import { AuthService } from 'src/auth/auth.service';
+
+
 
 @ApiTags('usuarios')
 @Controller('/usuarios')
 export class UsuarioController {
-    constructor(private readonly usuarioService: UsuarioService) {}
+    constructor(
+        private readonly usuarioService: UsuarioService, // Injete o UsuarioService
+        private readonly authService: AuthService, // Injete o AuthService
+    ) {}
 
     @Get("listar")
     @ApiResponse({ status: 200, description: 'Lista todos os usuários' })
@@ -52,15 +60,13 @@ export class UsuarioController {
     @Post('login')
     @ApiResponse({ status: 200, description: 'Login realizado com sucesso' })
     @ApiResponse({ status: 401, description: 'Credenciais inválidas' })
-    async loginUsuario(@Body() dados: LoginUsuarioDTO): Promise<{ message: string }> {
-        const usuario = await this.usuarioService.login(dados.TELEFONE, dados.SENHA);
+    async loginUsuario(@Body() dados: LoginUsuarioDTO, @Res() res: Response): Promise<Response> {
+        const usuario = await this.authService.login(dados);
     
-        if (!usuario) {
-         throw new UnauthorizedException('Credenciais inválidas');
-        }
-    
-        return { message: 'Login realizado com sucesso' }; 
+        const token = this.authService.gerarToken(usuario);
+        return res.status(200).json({ token, IDUSUARIO: usuario.IDUSUARIO, message: 'Login realizado com sucesso' });
     }
-
+    
+    
     // Add other methods as needed
 }

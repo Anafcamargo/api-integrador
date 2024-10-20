@@ -3,6 +3,9 @@ import { IsNotEmpty, IsString, MinLength, Matches } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class LoginUsuarioDTO {
+    status(arg0: number) {
+        throw new Error('Method not implemented.');
+    }
     
     @IsString()
     @IsNotEmpty({ message: "Senha não pode ser vazia" })

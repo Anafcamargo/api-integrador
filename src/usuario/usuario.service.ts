@@ -5,7 +5,8 @@ import {RetornoCadastroDTO, RetornoObjDTO} from "src/dto/retorno.dto";
 import { USUARIO } from "./usuario.entity";
 import { CriaUsuarioDTO } from "./dto/criaUsuario.dto";
 import { AlteraUsuarioDTO} from "./dto/alteraUsuario.dto";
-
+import { sign } from "jsonwebtoken";
+import * as bcrypt from 'bcrypt';
 
 
 @Injectable ()
@@ -17,6 +18,10 @@ export class UsuarioService {
         private usuarioRepository: Repository<USUARIO>,
     ){}
 
+    async encontrarPorTelefone(telefone: string): Promise<USUARIO | null> {
+        return await this.usuarioRepository.findOne({ where: { TELEFONE: telefone } });
+    }
+
     async listar (): Promise <USUARIO[]> {
         return this.usuarioRepository.find();
     }
@@ -26,7 +31,7 @@ export class UsuarioService {
         usuario.ID = uuid();
         usuario.NOME = dados.NOME;
         usuario.TELEFONE = dados.TELEFONE;
-        usuario.SENHA = dados.SENHA;
+        usuario.SENHA = await bcrypt.hash(dados.SENHA, 10);
 
         return this.usuarioRepository.save(usuario)
         .then((result) => {
@@ -44,25 +49,32 @@ export class UsuarioService {
     }
 
     async login(TELEFONE: string, SENHA: string): Promise<USUARIO | null> {
-        const usuario = await this.localizarTelefone(TELEFONE);
+        const usuario = await this.encontrarPorTelefone(TELEFONE);
         
-        if (usuario && usuario.SENHA === SENHA) {
-            return usuario; // Retorna o usuário se a senha estiver correta
+        if (usuario && await bcrypt.compare(SENHA, usuario.SENHA)) {
+            return usuario;
         }
         
-        return null; // Retorna null se as credenciais forem inválidas
+        return null;
     }
 
-    async localizarTelefone(telefone: string) {
-        return await this.usuarioRepository.findOne({
-            where: {
-                TELEFONE: telefone,
-            },
-        });
+
+    // Método para gerar o token
+    gerarToken(usuario: USUARIO): string {
+        const payload = { id: usuario.ID, telefone: usuario.TELEFONE };
+        return sign(payload, 'sua_chave_secreta', { expiresIn: '1h' }); // Ajuste a chave secreta e o tempo de expiração conforme necessário
     }
+
+    // async localizarTelefone(telefone: string) {
+    //     return await this.usuarioRepository.findOne({
+    //         where: {
+    //             TELEFONE: telefone,
+    //         },
+    //     });
+    // }
 
     async validaTelefone(telefoneNovo: string) {
-        const possivelUsuario = await this.localizarTelefone(telefoneNovo);
+        const possivelUsuario = await this.encontrarPorTelefone(telefoneNovo);
     
         return (possivelUsuario == null);
     }

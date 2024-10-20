@@ -6,6 +6,10 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class USUARIO {
+    // static findOne(arg0: { TELEFONE: string; }) {
+    //     throw new Error('Method not implemented.');
+    // }
+   
     @PrimaryGeneratedColumn('uuid') // Automatically generates a UUID
     @ApiProperty({ description: 'Unique identifier for the user' })
     ID: string;
@@ -25,4 +29,5 @@ export class USUARIO {
     @OneToMany(() => chamados, chamados => chamados.usuario)
     @ApiProperty({ type: () => chamados, isArray: true })
     chamados: chamados[];
+    IDUSUARIO: string;
 }

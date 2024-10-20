@@ -1,6 +1,6 @@
 
 import { RetornoCadastroDTO, RetornoObjDTO } from 'src/dto/retorno.dto';
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { CriachamadosDTO } from './dto/criachamados.dto';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { chamados } from './chamado.entity';
@@ -16,13 +16,14 @@ export class chamadosController {
     async listar(): Promise<chamados[]> {
         return this.chamadosService.listar();
     }
-
     @Post("cadastro")
-    @ApiResponse({ status: 201, description: 'chamado cadastrado com sucesso.' })
+    @ApiResponse({ status: 201, description: 'Chamado cadastrado com sucesso.' })
     async criachamados(@Body() dados: CriachamadosDTO): Promise<RetornoCadastroDTO> {
+        if (!dados.IDUSUARIO) {
+            throw new BadRequestException('ID do usuário é obrigatório.');
+        }
         return this.chamadosService.inserir(dados);
     }
-
     @Get("ID-:id")
     @ApiResponse({ status: 200, description: 'Retorna o chamados correspondente ao ID.' })
     async listarID(@Param("id") id: string): Promise<chamados> {

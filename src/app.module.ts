@@ -9,7 +9,7 @@ import { Any } from 'typeorm';
 import { join } from 'path';
 import { chamadosModule } from './chamados/chamado.module';
 import { FilesModule } from './files/files.module';
-import { AuthModule } from './auth.module';
+import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({

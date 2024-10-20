@@ -5,10 +5,13 @@ import { DatabaseModule } from 'src/database/database.module';
 import { usuarioProviders } from './usuario.providers';
 import { UsuarioService } from './usuario.service';
 import { telefoneUnicoValidator } from './validacao/telefone.validator';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { USUARIO } from './usuario.entity';
+import { AuthModule } from 'src/auth/auth.module';
 
 
 @Module({  
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, TypeOrmModule.forFeature([USUARIO]),AuthModule],
   controllers: [UsuarioController],  
   providers: [
     ...usuarioProviders,
@@ -17,4 +20,5 @@ import { telefoneUnicoValidator } from './validacao/telefone.validator';
   ],
   exports: [UsuarioService],
 })
-export class UsuarioModule {}
+export class UsuarioModule {
+}
