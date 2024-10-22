@@ -19,11 +19,11 @@ import { AuthModuleVoluntario } from './auth-voluntario/authv.module';
     DatabaseModule,
     TypeOrmModule.forRoot({
       type: 'mysql', // or 'postgres', etc.
-      host: 'localhost',
+      host: '50.116.112.16',
       port: 3306,
-      username: 'root',
-      password: '',
-      database: 'PROJETOCHAMAKI',
+      username: 'vitali04_rootchamaki',
+      password: 'toctoctoc123',
+      database: 'vitali04_chamaki',
       entities:  [join(__dirname, '**', '*.entity.{ts,js}')],
       synchronize: false, // Be cautious in production
     }),

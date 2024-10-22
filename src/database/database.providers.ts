@@ -13,7 +13,7 @@ export const databaseProviders = [
         port: 3306,
         username: 'root',
         password: '',
-        database: 'PROJETOCHAMAKI',
+        database: 'chamaki',
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: false,
       });

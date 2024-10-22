@@ -5,6 +5,7 @@ import { AuthVoluntarioService } from 'src/auth-voluntario/authservicev';
 import { VoluntarioModule } from 'src/voluntario/voluntario.module';
 import { AuthVoluntarioController } from 'src/auth-voluntario/authcontrollerv';
 import { VOLUNTARIO } from 'src/voluntario/voluntario.entity';
+import { VoluntarioService } from 'src/voluntario/voluntario.service';
 
 @Module({
   imports: [

@@ -59,7 +59,7 @@ export class UsuarioController {
 
     @Post('login')
     @ApiResponse({ status: 200, description: 'Login realizado com sucesso' })
-    @ApiResponse({ status: 401, description: 'Credenciais inválidas' })
+    @ApiResponse({ status: 401, description: 'Credenciais inválidas - usuario' })
     async loginUsuario(@Body() dados: LoginUsuarioDTO, @Res() res: Response): Promise<Response> {
         const usuario = await this.authService.login(dados);
     

@@ -117,7 +117,7 @@ export class VoluntarioService {
                 const voluntario = await this.voluntarioRepository.findOne({ where: { EMAIL } });
                 if (!voluntario) {
                     console.log('Voluntário não encontrado');
-                    throw new UnauthorizedException('Credenciais inválidas');
+                    throw new UnauthorizedException('Credenciais inválidas - voluntario');
                 }
             
                 console.log('Voluntário encontrado:', voluntario);
@@ -128,7 +128,7 @@ export class VoluntarioService {
                 console.log('Senha válida:', isPasswordValid); // Log para verificar se a senha é válida
             
                 if (!isPasswordValid) {
-                    throw new UnauthorizedException('Credenciais inválidas');
+                    throw new UnauthorizedException('Credenciais inválidas voluntario ');
                 }
             
                 console.log('Login bem-sucedido:', voluntario);
@@ -153,9 +153,12 @@ export class VoluntarioService {
             }
 
             async validarVoluntario(EMAIL: string, SENHA: string): Promise<VOLUNTARIO | null> {
-                const voluntario = await this.voluntarioRepository.findOne({ where: { EMAIL, SENHA } });
-                return voluntario || null;
-              }
+                const voluntario = await this.voluntarioRepository.findOne({ where: { EMAIL } });
+                if (voluntario && await bcrypt.compare(SENHA, voluntario.SENHA)) {
+                    return voluntario;
+                }
+                return null;
+            }
             
               
             
