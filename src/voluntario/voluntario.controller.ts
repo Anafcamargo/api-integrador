@@ -84,7 +84,7 @@ export class voluntarioController{
 
     @Post('login')
     async login(@Body() loginDto: LoginVoluntarioDTO) {
-        return await this.authVoluntarioService.login(loginDto); // Passa o DTO completo
+        return await this.VoluntarioService.login(loginDto); // Passa o DTO completo
     }
 
     @Post('register')

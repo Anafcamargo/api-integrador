@@ -1,48 +1,145 @@
-// import { Inject, Injectable, NotFoundException, BadRequestException } from "@nestjs/common";
+
+
+
+// import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 // import { Repository } from "typeorm";
+// import { v4 as uuid } from "uuid";
 // import { RetornoCadastroDTO, RetornoObjDTO } from "src/dto/retorno.dto";
 // import { VOLUNTARIO } from "./voluntario.entity";
 // import { CriaVoluntarioDTO } from "./dto/criaVoluntario.dto";
 // import { alteraVoluntarioDTO } from "./dto/alteravoluntario.dto";
+// import { LoginVoluntarioDTO } from "./dto/loginvoluntario.dto";
+// import * as bcrypt from 'bcrypt';
+// import * as jwt from 'jsonwebtoken';
+// import { RegisterVoluntarioDTO } from "./dto/RegisterVoluntario.DTO";
 
 // @Injectable()
 // export class VoluntarioService {
 //     constructor(
-//         @Inject("VOLUNTARIO_REPOSITORY")
+//         @Inject('VOLUNTARIO_REPOSITORY')
 //         private voluntarioRepository: Repository<VOLUNTARIO>,
-//     ) {}
+//       ) {}
 
 //     async validaEmail(EMAIL: string): Promise<boolean> {
-//         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//         if (!regex.test(EMAIL)) {
-//             throw new BadRequestException("Email inválido");
-//         }
-//         const user = await this.voluntarioRepository.findOne({ where: { EMAIL } });
-//         return !user; // Se não encontrar, retorna true
-//     }
+//                 try {
+//                     // Tente encontrar um usuário com o email fornecido
+//                     const user = await this.voluntarioRepository.findOne({ where: { EMAIL } });
+//                     // Retorna false se o email já existe, true caso contrário
+//                     return !user; // Se não encontrar, retorna true
+//                 }
+//                  catch (error) {
+//                     // console.error('Erro ao validar email:', error);
+//                     // throw new Error('Erro ao verificar o email.');
+//                 }
+//             }
+
+//             async encontrarVoluntarioPorEmail(email: string): Promise<VOLUNTARIO | null> {
+//                 const voluntario = await this.voluntarioRepository.findOne({ where: { EMAIL: email } });
+//                 if (!voluntario) {
+//                     console.log('Voluntário não encontrado:', email);
+//                 }
+//                 return voluntario;
+//             }
+
+//             async login(dados: LoginVoluntarioDTO): Promise<VOLUNTARIO | null> {
+//                 const { EMAIL, SENHA } = dados;
+            
+//                 console.log('Tentando logar com:', EMAIL);
+            
+//                 // Encontrar o voluntário pelo e-mail
+//                 const voluntario = await this.voluntarioRepository.findOne({ where: { EMAIL } });
+//                 if (!voluntario) {
+//                     console.log('Voluntário não encontrado');
+//                     throw new UnauthorizedException('Credenciais inválidas - voluntario');
+//                 }
+            
+//                 console.log('Voluntário encontrado:', voluntario);
+            
+//                 // Comparar a senha informada com a senha armazenada
+//                 const isPasswordValid = await bcrypt.compare(SENHA, voluntario.SENHA);
+//                 console.log('Resultado da comparação da senha:', isPasswordValid);
+//                 console.log('Senha válida:', isPasswordValid); // Log para verificar se a senha é válida
+            
+//                 if (!isPasswordValid) {
+//                     throw new UnauthorizedException('Credenciais inválidas voluntario ');
+//                 }
+            
+//                 console.log('Login bem-sucedido:', voluntario);
+//                 return voluntario;
+//             }
+            
+        
+//             gerarToken(voluntario: VOLUNTARIO): string {
+//                 const payload = { id: voluntario.ID, email: voluntario.EMAIL };
+//                 return jwt.sign(payload, 'seu_segredo', { expiresIn: '1h' }); // Substitua 'seu_segredo' por uma chave secreta real
+//             }
+
+//             async register(dados: RegisterVoluntarioDTO): Promise<VOLUNTARIO> {
+//                 const { EMAIL, SENHA } = dados;
+            
+//                 // Hash a senha antes de salvar
+//                 const hashedPassword = await bcrypt.hash(SENHA, 10);
+            
+//                 // Salve o voluntário com a senha hasheada
+//                 const voluntario = this.voluntarioRepository.create({ EMAIL, SENHA: hashedPassword });
+//                 return await this.voluntarioRepository.save(voluntario);
+//             }
+
+//             async validarVoluntario(EMAIL: string, SENHA: string): Promise<VOLUNTARIO | null> {
+//                 const voluntario = await this.voluntarioRepository.findOne({ where: { EMAIL } });
+//                 if (voluntario && await bcrypt.compare(SENHA, voluntario.SENHA)) {
+//                     return voluntario;
+//                 }
+//                 return null;
+//             }
+            
+              
+            
+             
+    
+            
 
 //     async listar(): Promise<VOLUNTARIO[]> {
 //         return this.voluntarioRepository.find();
 //     }
 
+
 //     async inserir(dados: CriaVoluntarioDTO): Promise<RetornoCadastroDTO> {
-//         const voluntario = this.voluntarioRepository.create(dados); // Automatically set properties from DTO
+//         let voluntario = new VOLUNTARIO();
+//         voluntario.ID = uuid();
+//         voluntario.NOME = dados.NOME;
+//         voluntario.CPF = dados.CPF;
+//         voluntario.NASCIMENTO = dados.NASCIMENTO;
+//         voluntario.EMAIL = dados.EMAIL;
+        
+//         // Geração do hash para a senha
+//         const salt = await bcrypt.genSalt(10);
+//         voluntario.SENHA = await bcrypt.hash(dados.SENHA, salt); // Hash da senha
+//         voluntario.TELEFONE = dados.TELEFONE;
+//         voluntario.ENDERECO = dados.ENDERECO;
+//         voluntario.NUMEROCASA = dados.NUMEROCASA;
+//         voluntario.BAIRRO = dados.BAIRRO;
+//         voluntario.CIDADE = dados.CIDADE;
 
 //         try {
 //             await this.voluntarioRepository.save(voluntario);
 //             return { id: voluntario.ID, message: "Voluntário cadastrado!" };
 //         } catch (error) {
-//             throw new BadRequestException("Houve um erro ao cadastrar: " + error.message);
+//             return { id: "", message: "Houve um erro ao cadastrar: " + error.message };
 //         }
 //     }
 
 //     async localizarID(ID: string): Promise<VOLUNTARIO> {
 //         const voluntario = await this.voluntarioRepository.findOne({ where: { ID } });
 //         if (!voluntario) {
-//             throw new NotFoundException("Voluntário não encontrado");
+//             throw new Error("Voluntário não encontrado");
 //         }
 //         return voluntario;
 //     } 
+
+//     async localizarNome(NOME: string): Promise<VOLUNTARIO> {
+//         return this.voluntarioRepository.findOne({ where: { NOME } });
+//     }
 
 //     async remover(id: string): Promise<RetornoObjDTO> {
 //         const voluntario = await this.localizarID(id);
@@ -50,7 +147,7 @@
 //             await this.voluntarioRepository.remove(voluntario);
 //             return { return: voluntario, message: "Voluntário excluído!" };
 //         } catch (error) {
-//             throw new BadRequestException("Houve um erro ao excluir: " + error.message);
+//             return { return: voluntario, message: "Houve um erro ao excluir: " + error.message };
 //         }
 //     }
 
@@ -62,11 +159,10 @@
 //             await this.voluntarioRepository.save(voluntario);
 //             return { id: voluntario.ID, message: "Voluntário alterado!" };
 //         } catch (error) {
-//             throw new BadRequestException("Houve um erro ao alterar: " + error.message);
+//             return { id: "", message: "Houve um erro ao alterar: " + error.message };
 //         }
 //     }
 // }
-
 
 import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { Repository } from "typeorm";
@@ -76,108 +172,150 @@ import { VOLUNTARIO } from "./voluntario.entity";
 import { CriaVoluntarioDTO } from "./dto/criaVoluntario.dto";
 import { alteraVoluntarioDTO } from "./dto/alteravoluntario.dto";
 import { LoginVoluntarioDTO } from "./dto/loginvoluntario.dto";
-import * as bcrypt from 'bcrypt';
+
 import * as jwt from 'jsonwebtoken';
 import { RegisterVoluntarioDTO } from "./dto/RegisterVoluntario.DTO";
+import { hash } from "bcrypt";
+import * as bcrypt from 'bcryptjs';
+
 
 @Injectable()
 export class VoluntarioService {
     constructor(
         @Inject('VOLUNTARIO_REPOSITORY')
         private voluntarioRepository: Repository<VOLUNTARIO>,
-      ) {}
+    ) {}
 
+    // Função para validar se o e-mail já está em uso
     async validaEmail(EMAIL: string): Promise<boolean> {
-                try {
-                    // Tente encontrar um usuário com o email fornecido
-                    const user = await this.voluntarioRepository.findOne({ where: { EMAIL } });
-                    // Retorna false se o email já existe, true caso contrário
-                    return !user; // Se não encontrar, retorna true
-                }
-                 catch (error) {
-                    // console.error('Erro ao validar email:', error);
-                    // throw new Error('Erro ao verificar o email.');
-                }
-            }
+        try {
+            const user = await this.voluntarioRepository.findOne({ where: { EMAIL } });
+            return !user; // Retorna true se o e-mail ainda não existir
+        } catch (error) {
+            throw new Error('Erro ao verificar o e-mail.');
+        }
+    }
 
-            async encontrarVoluntarioPorEmail(email: string): Promise<VOLUNTARIO | null> {
-                const voluntario = await this.voluntarioRepository.findOne({ where: { EMAIL: email } });
-                if (!voluntario) {
-                    console.log('Voluntário não encontrado:', email);
-                }
-                return voluntario;
-            }
+    // Função para encontrar voluntário pelo e-mail
+    async encontrarVoluntarioPorEmail(email: string): Promise<VOLUNTARIO | null> {
+        const voluntario = await this.voluntarioRepository.findOne({ where: { EMAIL: email } });
+        if (!voluntario) {
+            console.log('Voluntário não encontrado:', email);
+        }
+        return voluntario;
+    }
 
-            async login(dados: LoginVoluntarioDTO): Promise<VOLUNTARIO | null> {
-                const { EMAIL, SENHA } = dados;
-            
-                console.log('Tentando logar com:', EMAIL);
-            
-                // Encontrar o voluntário pelo e-mail
-                const voluntario = await this.voluntarioRepository.findOne({ where: { EMAIL } });
-                if (!voluntario) {
-                    console.log('Voluntário não encontrado');
-                    throw new UnauthorizedException('Credenciais inválidas - voluntario');
-                }
-            
-                console.log('Voluntário encontrado:', voluntario);
-            
-                // Comparar a senha informada com a senha armazenada
-                const isPasswordValid = await bcrypt.compare(SENHA, voluntario.SENHA);
-                console.log('Resultado da comparação da senha:', isPasswordValid);
-                console.log('Senha válida:', isPasswordValid); // Log para verificar se a senha é válida
-            
-                if (!isPasswordValid) {
-                    throw new UnauthorizedException('Credenciais inválidas voluntario ');
-                }
-            
-                console.log('Login bem-sucedido:', voluntario);
-                return voluntario;
-            }
-            
+    async validarSenhaParaTeste(senha: string, hash: string): Promise<boolean> {
+        console.log('Testando comparação de senha');
+        const isMatch = await bcrypt.compare(senha, hash);
+        console.log('A comparação da senha é válida:', isMatch); // Deve ser true
+        return isMatch;
+    }
+    
+
+    // Função para fazer login
+    async login(dados: LoginVoluntarioDTO): Promise<VOLUNTARIO | null> {
+        console.log('Método de login chamado');
+        const { EMAIL, SENHA } = dados;
         
-            gerarToken(voluntario: VOLUNTARIO): string {
-                const payload = { id: voluntario.ID, email: voluntario.EMAIL };
-                return jwt.sign(payload, 'seu_segredo', { expiresIn: '1h' }); // Substitua 'seu_segredo' por uma chave secreta real
-            }
+        console.log('Tentando logar com:', EMAIL);
+        
+        // Usar a função validarVoluntario para verificar as credenciais
+        const voluntario = await this.validarVoluntario(EMAIL, SENHA);
+      
+        
+        if (!voluntario) {
+            console.log('Credenciais inválidas - voluntário');
+            throw new UnauthorizedException('Credenciais inválidas - voluntário');
+        }
+    
+        console.log('Login bem-sucedido:', voluntario);
+        return voluntario;
+    }
 
-            async register(dados: RegisterVoluntarioDTO): Promise<VOLUNTARIO> {
-                const { EMAIL, SENHA } = dados;
-            
-                // Hash a senha antes de salvar
-                const hashedPassword = await bcrypt.hash(SENHA, 10);
-            
-                // Salve o voluntário com a senha hasheada
-                const voluntario = this.voluntarioRepository.create({ EMAIL, SENHA: hashedPassword });
-                return await this.voluntarioRepository.save(voluntario);
-            }
+    // Função para gerar token JWT
+    gerarToken(voluntario: VOLUNTARIO): string {
+        const payload = { id: voluntario.ID, email: voluntario.EMAIL };
+        return jwt.sign(payload, 'seu_segredo', { expiresIn: '1h' }); // Substituir 'seu_segredo' por uma chave secreta real
+    }
 
-            async validarVoluntario(EMAIL: string, SENHA: string): Promise<VOLUNTARIO | null> {
-                const voluntario = await this.voluntarioRepository.findOne({ where: { EMAIL } });
-                if (voluntario && await bcrypt.compare(SENHA, voluntario.SENHA)) {
-                    return voluntario;
-                }
-                return null;
-            }
-            
-              
-            
-             
-            // async updatePasswords(): Promise<void> {
-            //     const voluntarios = await this.voluntarioRepository.find();
-            //     for (const voluntario of voluntarios) {
-            //         const hashedPassword = await bcrypt.hash(voluntario.SENHA, 10);
-            //         voluntario.SENHA = hashedPassword;
-            //         await this.voluntarioRepository.save(voluntario);
-            //     }
-            // }
-            
+    
+        async register(dados: RegisterVoluntarioDTO): Promise<VOLUNTARIO> {
+        const { EMAIL, SENHA } = dados;
+    
+        // Gerar hash da senha com bcrypt
+        const hashedPassword = await bcrypt.hash(SENHA, 10);  // Certifique-se de que o salt está correto e consistente
+        console.log('Senha hasheada gerada:', hashedPassword); // Verificar se a senha está sendo hasheada corretamente
+    
+        const voluntario = this.voluntarioRepository.create({ EMAIL, SENHA: hashedPassword });
+        return await this.voluntarioRepository.save(voluntario);
+    }
 
+
+
+    // Função para validar voluntário com e-mail e senha
+  async validarVoluntario(EMAIL: string, SENHA: string): Promise<VOLUNTARIO | null> {
+    const voluntario = await this.voluntarioRepository.findOne({ where: { EMAIL } });
+    const trimmedSenha = SENHA.trim()
+    if (voluntario) {
+        // Log para verificar as senhas
+        console.log('Email:', EMAIL);
+        console.log('Senha fornecida:', trimmedSenha);
+        console.log('Senha armazenada:', voluntario.SENHA); // A senha armazenada no banco de dados
+        console.log('Encoding da senha fornecida:', Buffer.from(SENHA, 'utf-8'));
+        console.log('Encoding do hash armazenado:', Buffer.from(voluntario.SENHA, 'utf-8'));
+        const senhaFornecida = 'senha123'; // Senha para testar
+        console.log('Tamanho da senha fornecida:', SENHA.length);
+        console.log('Tamanho do hash armazenado:', voluntario.SENHA.length);
+    const hashArmazenado = '$2b$10$mqSs0bxmdquXj8RZHA/eAOUBmKzj3yDo7LgnHR8CrqHGCkan'; // Hash armazenado no banco de dados
+
+    // Testar a comparação entre a senha fornecida e o hash armazenado
+    bcrypt.compare(senhaFornecida, hashArmazenado)
+    .then(result => {
+        console.log('Resultado da comparação da senha com hash armazenado:', result); // Deve ser true
+    })
+    .catch(err => {
+        console.error('Erro na comparação de senha:', err);
+    });
+
+        const isPasswordValid = await bcrypt.compare(trimmedSenha, voluntario.SENHA);
+        console.log('Resultado da comparação da senha:', isPasswordValid);
+
+        await this.validarSenhaParaTeste(trimmedSenha, voluntario.SENHA);
+        
+        if (isPasswordValid) {
+            return voluntario; // Retorna o voluntário se a senha for válida
+        }
+    }
+    
+
+    const senhaFornecida = 'senha123'; // A senha que você está testando
+
+    // Gerar um novo hash da senha
+    bcrypt.hash(senhaFornecida, 10)
+    .then(hash => {
+        console.log('Novo hash gerado:', hash);
+        
+        // Comparar a senha fornecida com o novo hash
+        return bcrypt.compare(senhaFornecida, hash);
+    })
+    .then(result => {
+        console.log('Resultado da comparação de senha com novo hash:', result); // Deve ser true
+    })
+    .catch(err => {
+        console.error('Erro:', err);
+    });
+
+
+    return null; // Retorna null se o voluntário não for encontrado ou a senha não for válida
+}
+
+    // Função para listar todos os voluntários
     async listar(): Promise<VOLUNTARIO[]> {
         return this.voluntarioRepository.find();
     }
 
-
+    // Função para inserir novo voluntário
     async inserir(dados: CriaVoluntarioDTO): Promise<RetornoCadastroDTO> {
         let voluntario = new VOLUNTARIO();
         voluntario.ID = uuid();
@@ -185,10 +323,9 @@ export class VoluntarioService {
         voluntario.CPF = dados.CPF;
         voluntario.NASCIMENTO = dados.NASCIMENTO;
         voluntario.EMAIL = dados.EMAIL;
-        
-        // Geração do hash para a senha
-        const salt = await bcrypt.genSalt(10);
-        voluntario.SENHA = await bcrypt.hash(dados.SENHA, salt); // Hash da senha
+
+        // Gerar hash da senha
+        voluntario.SENHA = await this.hashSenha(dados.SENHA); 
         voluntario.TELEFONE = dados.TELEFONE;
         voluntario.ENDERECO = dados.ENDERECO;
         voluntario.NUMEROCASA = dados.NUMEROCASA;
@@ -203,18 +340,27 @@ export class VoluntarioService {
         }
     }
 
+    // Função para gerar hash da senha
+    private async hashSenha(senha: string): Promise<string> {
+        const salt = await bcrypt.genSalt(10);
+        return await bcrypt.hash(senha, salt);
+    }
+
+    // Função para localizar voluntário por ID
     async localizarID(ID: string): Promise<VOLUNTARIO> {
         const voluntario = await this.voluntarioRepository.findOne({ where: { ID } });
         if (!voluntario) {
             throw new Error("Voluntário não encontrado");
         }
         return voluntario;
-    } 
+    }
 
+    // Função para localizar voluntário por nome
     async localizarNome(NOME: string): Promise<VOLUNTARIO> {
         return this.voluntarioRepository.findOne({ where: { NOME } });
     }
 
+    // Função para remover voluntário
     async remover(id: string): Promise<RetornoObjDTO> {
         const voluntario = await this.localizarID(id);
         try {
@@ -225,9 +371,10 @@ export class VoluntarioService {
         }
     }
 
+    // Função para alterar dados do voluntário
     async alterar(id: string, dados: alteraVoluntarioDTO): Promise<RetornoCadastroDTO> {
         const voluntario = await this.localizarID(id);
-        Object.assign(voluntario, dados); // Use Object.assign para simplificar
+        Object.assign(voluntario, dados); // Atualiza os dados
 
         try {
             await this.voluntarioRepository.save(voluntario);
