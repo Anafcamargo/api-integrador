@@ -1,5 +1,5 @@
 
-import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
+import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
 // import { EmailUnico } from "../validacao/email.validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
@@ -38,10 +38,10 @@ export class alteraVoluntarioDTO {
     })
     SENHA: string;
 
-    @IsNumber({}, { message: "Ano de nascimento deve ser um número" })
+    @IsDate()
     @IsOptional()
     @ApiPropertyOptional({
-        example: 1990,
+        example: 27-11-1998,
         description: "Ano de nascimento do usuário, deve ser informado como um número"
     })
     NASCIMENTO: number; // Use number or Date depending on your preference

@@ -11,6 +11,7 @@ import { Response } from 'express';
 import { VoluntarioService } from "./voluntario.service";
 import { RegisterVoluntarioDTO } from "./dto/RegisterVoluntario.DTO";
 import { AuthVoluntarioService } from "src/auth-voluntario/authservicev";
+import { alteraVoluntarioDTO } from "./dto/alteravoluntario.dto";
 
 @ApiTags('voluntario')
 @Controller('/voluntarios')
@@ -41,10 +42,10 @@ export class voluntarioController{
         return await this.VoluntarioService.login(loginDto); // Passa o DTO completo
     }
 
-    @Post('register')
-    async register(@Body() dados: RegisterVoluntarioDTO) {
-        return await this.VoluntarioService.register(dados);
-    }
+    // @Post('register')
+    // async register(@Body() dados: RegisterVoluntarioDTO) {
+    //     return await this.VoluntarioService.register(dados);
+    // }
 
     @Get('voluntario/me')
     // @UseGuards(AuthGuard()) // Protege a rota
@@ -54,7 +55,7 @@ export class voluntarioController{
 
     @Put (":id")
     @ApiResponse({ status: 200, description: 'Usuário alterado com sucesso' })
-    async alterarVoluntario(@Body() dados: CriaVoluntarioDTO, @Param("id") id: string): Promise<RetornoCadastroDTO> {
+    async alterarVoluntario(@Body() dados: alteraVoluntarioDTO, @Param("id") id: string): Promise<RetornoCadastroDTO> {
         return this.VoluntarioService.alterar(id,dados);
     }
 

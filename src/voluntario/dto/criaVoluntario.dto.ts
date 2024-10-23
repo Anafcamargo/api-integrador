@@ -23,7 +23,7 @@ export class CriaVoluntarioDTO{
 
     @IsNumber()
     @ApiProperty({
-        example: "1990-11-27",
+        example: "27-11-1998",
         description: "Ano de nascimento do usuário, deve ser informado como Numero"
     })
     NASCIMENTO: number;

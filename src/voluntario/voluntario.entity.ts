@@ -43,13 +43,14 @@ export class VOLUNTARIO {
 
     IDVOLUNTARIO: string;
 
-    @BeforeInsert()
-    @BeforeUpdate()
-    async hashPassword() {
-        if (this.SENHA) {
-            const salt = await bcrypt.genSalt(10);
-            this.SENHA = await bcrypt.hash(this.SENHA, salt);
-        }
+    trocaSenha(senha){
+        const saltOrRounds = 10;
+        this.SENHA = bcrypt.hashSync(senha,saltOrRounds)
+        return 0
+    }
+
+    login(senha){
+        return bcrypt.compareSync(senha,this.SENHA);
     }
 
     @OneToMany(() => chamados, chamados => chamados.voluntario)
