@@ -1,14 +1,15 @@
 
 import { ApiProperty } from "@nestjs/swagger";
 import { chamados } from "src/chamados/chamado.entity";
+import { v4 as uuid} from 'uuid';
 
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-
+import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import * as bcrypt from 'bcrypt';
 @Entity()
 export class USUARIO {
-    // static findOne(arg0: { TELEFONE: string; }) {
-    //     throw new Error('Method not implemented.');
-    // }
+    static findOne(arg0: { TELEFONE: string; }) {
+        throw new Error('Method not implemented.');
+    }
    
     @PrimaryGeneratedColumn('uuid') // Automatically generates a UUID
     @ApiProperty({ description: 'Unique identifier for the user' })
@@ -26,8 +27,29 @@ export class USUARIO {
     @ApiProperty({ description: 'User\'s password' })
     SENHA: string;
 
-    @OneToMany(() => chamados, chamados => chamados.usuario)
-    @ApiProperty({ type: () => chamados, isArray: true })
-    chamados: chamados[];
-    IDUSUARIO: string;
+    // IDUSUARIO: string;
+
+    trocaSenha(senha){
+        const saltOrRounds = 10;
+        this.SENHA = bcrypt.hashSync(senha,saltOrRounds)
+        return 0
+    }
+ 
+    login(senha){
+        return bcrypt.compareSync(senha,this.SENHA);
+    }
+
+
+    // @OneToMany(() => chamados, chamados => chamados.usuario)
+    // @ApiProperty({ type: () => chamados, isArray: true })
+    // chamados: chamados[];
+
+    @BeforeInsert()
+    generateUUID() {
+        this.ID = uuid();
+    }
+    
 }
+
+
+

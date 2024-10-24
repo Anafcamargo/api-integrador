@@ -5,10 +5,12 @@ import { CriachamadosDTO } from './dto/criachamados.dto';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { chamados } from './chamado.entity';
 import { chamadosService } from './chamado.service';
+import { USUARIO } from 'src/usuario/usuario.entity';
 
 @ApiTags('chamados')
 @Controller("/chamados")
 export class chamadosController {
+    usuarioServie: any;
     constructor(private readonly chamadosService: chamadosService) {}
 
     @Get("listar")
@@ -16,18 +18,19 @@ export class chamadosController {
     async listar(): Promise<chamados[]> {
         return this.chamadosService.listar();
     }
+
     @Post("cadastro")
     @ApiResponse({ status: 201, description: 'Chamado cadastrado com sucesso.' })
     async criachamados(@Body() dados: CriachamadosDTO): Promise<RetornoCadastroDTO> {
-        if (!dados.IDUSUARIO) {
-            throw new BadRequestException('ID do usuário é obrigatório.');
-        }
+        // Implementação para salvar o chamado
         return this.chamadosService.inserir(dados);
     }
-    @Get("ID-:id")
-    @ApiResponse({ status: 200, description: 'Retorna o chamados correspondente ao ID.' })
-    async listarID(@Param("id") id: string): Promise<chamados> {
-        return this.chamadosService.localizarID(id);
+
+
+    @Get("usuario/:id")
+    @ApiResponse({ status: 200, description: 'Retorna o usuário correspondente ao ID.' })
+    async listarUsuario(@Param("id") id: string): Promise<USUARIO> {
+        return this.usuarioServie.localizarID(id); // Implementação para encontrar o usuário
     }
 
     @Delete("remove-:id")

@@ -20,22 +20,24 @@ export class chamadosService {
     }
 
     async inserir(dados: CriachamadosDTO): Promise<RetornoCadastroDTO> {
-        let chamado = new chamados();
+        const chamado = new chamados();
         chamado.ID = uuid();
+        chamado.NOME = dados.NOME;
         chamado.TELEFONE = dados.TELEFONE;
         chamado.DESCRICAO = dados.DESCRICAO;
         chamado.CATEGORIA = dados.CATEGORIA;
         chamado.IDUSUARIO = dados.IDUSUARIO;
-        // chamado.IDVOLUNTARIO = dados.IDVOLUNTARIO;
+        
     
         try {
             await this.chamadosRepository.save(chamado);
-            return { id: chamado.ID, message: "Chamado cadastrado!" }; // Corrigido aqui
+            return { id: chamado.ID, message: "Chamado cadastrado!" };
         } catch (error) {
+            console.error("Erro ao cadastrar chamado:", error); // Log para depuração
             return { id: "", message: "Houve um erro ao cadastrar: " + error.message };
         }
     }
-
+    
     async localizarID(ID: string): Promise<chamados> {
         return this.chamadosRepository.findOne({ where: { ID } });
     }

@@ -26,8 +26,8 @@ export class chamados {
     // IDVOLUNTARIO: string;
 
 
-    @ManyToOne(() => VOLUNTARIO, voluntario => voluntario.chamados)
-    voluntario: VOLUNTARIO; // Relaciona um único voluntário ao chamados
-    usuario: any;
-    static id: string;
+    // @ManyToOne(() => VOLUNTARIO, voluntario => voluntario.chamados)
+    // voluntario: VOLUNTARIO; // Relaciona um único voluntário ao chamados
+    // usuario: any;
+    // static id: string;
 }

@@ -106,68 +106,6 @@ export class VoluntarioService {
             return null;
         }
     }
-    
-
-
-
-
-    // Função para validar voluntário com e-mail e senha
-//   async validarVoluntario(EMAIL: string, SENHA: string): Promise<VOLUNTARIO | null> {
-//     const voluntario = await this.voluntarioRepository.findOne({ where: { EMAIL } });
-//     const trimmedSenha = SENHA.trim()
-//     if (voluntario) {
-//         // Log para verificar as senhas
-//         console.log('Email:', EMAIL);
-//         console.log('Senha fornecida:', trimmedSenha);
-//         console.log('Senha armazenada:', voluntario.SENHA); // A senha armazenada no banco de dados
-//         console.log('Encoding da senha fornecida:', Buffer.from(SENHA, 'utf-8'));
-//         console.log('Encoding do hash armazenado:', Buffer.from(voluntario.SENHA, 'utf-8'));
-//         const senhaFornecida = 'senha123'; // Senha para testar
-//         console.log('Tamanho da senha fornecida:', SENHA.length);
-//         console.log('Tamanho do hash armazenado:', voluntario.SENHA.length);
-
-//     let logado = voluntario.login(trimmedSenha);
-
-//     // Testar a comparação entre a senha fornecida e o hash armazenado
-//     bcrypt.compare(senhaFornecida, hashArmazenado)
-//     .then(result => {
-//         console.log('Resultado da comparação da senha com hash armazenado:', result); // Deve ser true
-//     })
-//     .catch(err => {
-//         console.error('Erro na comparação de senha:', err);
-//     });
-
-//         const isPasswordValid = await bcrypt.compare(trimmedSenha, voluntario.SENHA);
-//         console.log('Resultado da comparação da senha:', isPasswordValid);
-
-//         await this.validarSenhaParaTeste(trimmedSenha, voluntario.SENHA);
-        
-//         if (isPasswordValid) {
-//             return voluntario; // Retorna o voluntário se a senha for válida
-//         }
-//     }
-    
-
-//     // const senhaFornecida = 'senha123'; // A senha que você está testando
-
-//     // // Gerar um novo hash da senha
-//     // bcrypt.hash(senhaFornecida, 10)
-//     // .then(hash => {
-//     //     console.log('Novo hash gerado:', hash);
-        
-//     //     // Comparar a senha fornecida com o novo hash
-//     //     return bcrypt.compare(senhaFornecida, hash);
-//     // })
-//     // .then(result => {
-//     //     console.log('Resultado da comparação de senha com novo hash:', result); // Deve ser true
-//     // })
-//     // .catch(err => {
-//     //     console.error('Erro:', err);
-//     // });
-
-
-//     return null; // Retorna null se o voluntário não for encontrado ou a senha não for válida
-// }
 
     // Função para listar todos os voluntários
     async listar(): Promise<VOLUNTARIO[]> {

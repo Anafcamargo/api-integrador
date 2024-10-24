@@ -1,46 +1,38 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { VoluntarioService } from 'src/voluntario/voluntario.service';
+import { VOLUNTARIO } from 'src/voluntario/voluntario.entity';
+import { LoginVoluntarioDTO } from 'src/voluntario/dto/loginvoluntario.dto';
+import { UsuarioService } from 'src/usuario/usuario.service';
 import { LoginUsuarioDTO } from 'src/usuario/dto/loginUsuario.dto';
 import { USUARIO } from 'src/usuario/usuario.entity';
-import { UnauthorizedException } from '@nestjs/common';
-import jwt from 'jsonwebtoken';
 
 @Injectable()
 export class AuthService {
-    private readonly logger = new Logger(AuthService.name);
     constructor(
-        @InjectRepository(USUARIO)
-        private usuarioRepository: Repository<USUARIO>,
+        private readonly jwtService: JwtService,
+        private readonly usuarioService: UsuarioService,
     ) {}
 
-    async login(dados: LoginUsuarioDTO): Promise<USUARIO | null> {
+    // Função de login
+    async login(dados: LoginUsuarioDTO): Promise<{ token: string; usuario: USUARIO }> {
         const { TELEFONE, SENHA } = dados;
 
-        // 1. Encontrar o usuário pelo telefone
-        const usuario = await this.usuarioRepository.findOne({ where: { TELEFONE } });
+        // Validação do voluntário (delegando ao VoluntarioService)
+        const usuario = await this.usuarioService.validarUsuario(TELEFONE, SENHA);
+ 
         if (!usuario) {
-            this.logger.warn(`Usuário não encontrado com o telefone: ${TELEFONE}`);
             throw new UnauthorizedException('Credenciais inválidas');
         }
 
-        // 2. Comparar a senha informada com a senha armazenada
-        const isPasswordValid = await bcrypt.compare(SENHA, usuario.SENHA);
-        if (!isPasswordValid) {
-            this.logger.warn(`Senha inválida para o telefone: ${TELEFONE}`);
-            throw new UnauthorizedException('Credenciais inválidas');
-        }
-
-        return usuario;
-
-       
-      }
-
-      gerarToken(usuario: USUARIO): string {
-        const payload = { id: usuario.IDUSUARIO };
-        return jwt.sign(payload, 'seu_segredo', { expiresIn: '1h' }); // Ajuste o segredo e as opções conforme necessário
+        // Gerar o token JWT
+        const token = this.gerarToken(usuario);
+        return { token, usuario };
     }
 
-    
+    // Função para gerar token JWT
+    public gerarToken(usuario: USUARIO): string {
+        const payload = { telefone: usuario.TELEFONE, sub: usuario.ID };
+        return this.jwtService.sign(payload);  // Gera o token
+    }
 }

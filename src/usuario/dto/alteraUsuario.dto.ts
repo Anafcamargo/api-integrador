@@ -12,7 +12,7 @@ export class AlteraUsuarioDTO {
         example: "Alecrim",
         description: "Nome do usuário, deve ser informado um texto contendo o nome"
     })
-    readonly NOME: string; // Torne a propriedade opcional
+    NOME: string; // Torne a propriedade opcional
 
     @IsString()
     @IsOptional()
@@ -20,7 +20,7 @@ export class AlteraUsuarioDTO {
         example: "12123412349",
         description: "Telefone do usuário, deve ser informado um texto apenas com os números do telefone"
     })
-    readonly TELEFONE?: string; // Torne a propriedade opcional
+    TELEFONE: string; // Torne a propriedade opcional
 
     @IsString()
     @IsOptional()
@@ -28,5 +28,5 @@ export class AlteraUsuarioDTO {
         example: "senhaSegura123",
         description: "Senha do usuário, deve ser informado um texto com a senha."
     })
-    readonly SENHA?: string; // Torne a propriedade opcional
+   SENHA: string; // Torne a propriedade opcional
 }

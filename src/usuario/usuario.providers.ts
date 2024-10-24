@@ -7,7 +7,12 @@ import { DataSource } from "typeorm";
 export const usuarioProviders = [
     {
         provide: 'USUARIO_REPOSITORY',
-        useFactory: (dataSource: DataSource) => dataSource.getRepository<USUARIO>(USUARIO),
+        useFactory: (dataSource: DataSource) => {
+            if (!dataSource) {
+                throw new Error('DataSource is not initialized');
+            }
+            return dataSource.getRepository(USUARIO);
+        },
         inject: ['DATA_SOURCE'],
     },
 ];

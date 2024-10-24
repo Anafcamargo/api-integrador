@@ -41,20 +41,20 @@ export class VOLUNTARIO {
     @Column({ length: 55 })
     CIDADE: string;
 
-    IDVOLUNTARIO: string;
+    // IDVOLUNTARIO: string;
 
     trocaSenha(senha){
         const saltOrRounds = 10;
         this.SENHA = bcrypt.hashSync(senha,saltOrRounds)
         return 0
     }
-
+ 
     login(senha){
         return bcrypt.compareSync(senha,this.SENHA);
     }
 
-    @OneToMany(() => chamados, chamados => chamados.voluntario)
-    chamados: chamados[];
+    // @OneToMany(() => chamados, chamados => chamados.voluntario)
+    // chamados: chamados[];
 
     @BeforeInsert()
     generateUUID() {

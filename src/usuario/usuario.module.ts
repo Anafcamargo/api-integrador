@@ -1,5 +1,5 @@
 
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { UsuarioController } from './usuario.controller';
 import { DatabaseModule } from 'src/database/database.module';
 import { usuarioProviders } from './usuario.providers';
@@ -11,12 +11,18 @@ import { AuthModule } from 'src/auth/auth.module';
 
 
 @Module({  
-  imports: [DatabaseModule, TypeOrmModule.forFeature([USUARIO]),AuthModule],
+  imports: [DatabaseModule, TypeOrmModule.forFeature([USUARIO]),forwardRef(() => AuthModule)],
   controllers: [UsuarioController],  
   providers: [
+    {
+      provide: 'VOLUNTARIO_REPOSITORY',
+      useFactory: (dataSource) => dataSource.getRepository(USUARIO),
+      inject: ['DATA_SOURCE'], // Certifique-se de que DATA_SOURCE está sendo injetado corretamente
+    },
     ...usuarioProviders,
     UsuarioService,
-    telefoneUnicoValidator
+    telefoneUnicoValidator,
+    AuthModule
   ],
   exports: [UsuarioService],
 })

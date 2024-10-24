@@ -1,20 +1,15 @@
 
 
+import { IsNotEmpty, IsString } from "class-validator";
 import { USUARIO } from "../usuario.entity";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class RetornoUsuarioDTO {
-    @ApiProperty({
-        example: "success",
-        description: "Status da operação, indicando se a ação foi bem-sucedida."
-    })
-    readonly status: string;
+    @IsString()
+    @IsNotEmpty({ message: 'ID não pode ser vazio.' })
+    readonly id: string;
 
-    @ApiProperty({ type: USUARIO })
-    readonly usuario: USUARIO;
-
-    constructor(status: string, usuario: USUARIO) {
-        this.status = status;
-        this.usuario = usuario;
-    }
+    @IsString()
+    @IsNotEmpty({ message: 'Mensagem não pode ser vazia.' })
+    readonly message: string;
 }

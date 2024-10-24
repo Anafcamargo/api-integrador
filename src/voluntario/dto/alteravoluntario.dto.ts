@@ -6,13 +6,14 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 export class alteraVoluntarioDTO {
 
     @IsString()
+    @IsOptional()
     @IsNotEmpty({ message: "Nome não pode ser vazio" })
     @ApiPropertyOptional({
         example: "Ana",
         description: "Nome do usuário, deve ser informado um texto contendo o nome"
     })
     NOME: string;
-
+ 
     @IsString()
     @IsOptional()
     @ApiPropertyOptional({

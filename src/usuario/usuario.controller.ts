@@ -30,12 +30,12 @@ export class UsuarioController {
     }
 
     @Post("cadastro")
-    @ApiCreatedResponse({ description: 'Usuário criado com sucesso' })
-    async criaUsuario(@Body() dados: CriaUsuarioDTO): Promise<RetornoCadastroDTO> {
+    async criaUsuario(@Body() dados: CriaUsuarioDTO, @Res() res: Response) {
         const usuarioCriado = await this.usuarioService.inserir(dados);
+        return res.status(201).json(usuarioCriado);
         
         // Retorna um objeto com a mensagem e, se necessário, o ID do usuário
-        return { id: usuarioCriado.id, message: "Usuário criado com sucesso! Faça login para continuar." };
+        // return { id: usuarioCriado.id, message: "Usuário criado com sucesso! Faça login para continuar." };
     }
     
 
@@ -57,16 +57,22 @@ export class UsuarioController {
         return this.usuarioService.remover(id);
     }
 
+   
     @Post('login')
-    @ApiResponse({ status: 200, description: 'Login realizado com sucesso' })
-    @ApiResponse({ status: 401, description: 'Credenciais inválidas - usuario' })
-    async loginUsuario(@Body() dados: LoginUsuarioDTO, @Res() res: Response): Promise<Response> {
-        const usuario = await this.authService.login(dados);
-    
-        const token = this.authService.gerarToken(usuario);
-        return res.status(200).json({ token, IDUSUARIO: usuario.IDUSUARIO, message: 'Login realizado com sucesso' });
+    async login(@Body() loginDto: LoginUsuarioDTO) {
+        return await this.usuarioService.login(loginDto); // Passa o DTO completo
     }
+
     
+     // @Post('login')
+    // @ApiResponse({ status: 200, description: 'Login realizado com sucesso' })
+    // @ApiResponse({ status: 401, description: 'Credenciais inválidas - usuario' })
+    // async loginUsuario(@Body() dados: LoginUsuarioDTO, @Res() res: Response): Promise<Response> {
+    //     const usuario = await this.authService.login(dados);
+    
+    //     const token = this.authService.gerarToken(usuario);
+    //     return res.status(200).json({ token, IDUSUARIO: usuario.IDUSUARIO, message: 'Login realizado com sucesso' });
+    // }
     
     // Add other methods as needed
 }

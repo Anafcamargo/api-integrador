@@ -11,7 +11,7 @@ export class CriaUsuarioDTO {
         example: "Alecrim",
         description: "Nome do usuário, deve ser informado um texto contendo o nome"
     })
-    readonly NOME: string;
+    NOME: string;
 
 
     @IsString()
@@ -21,7 +21,7 @@ export class CriaUsuarioDTO {
         description: "Telefone do usuário, deve ser informado um texto apenas com os números do telefone"
     })
     @TelefoneUnico({ message: 'Telefone já cadastrado' })
-    readonly TELEFONE?: string;
+    TELEFONE: string;
 
     @IsString()
     @Length(6, 20, { message: "A senha deve ter entre 6 e 20 caracteres." }) // Adicionando comprimento mínimo
@@ -29,5 +29,5 @@ export class CriaUsuarioDTO {
         example: "senhaSegura123",
         description: "Senha do usuário, deve ser informado um texto com a senha."
     })
-    readonly SENHA: string;
+    SENHA: string;
 }

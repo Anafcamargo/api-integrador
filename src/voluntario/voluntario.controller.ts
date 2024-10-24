@@ -48,8 +48,8 @@ export class voluntarioController{
     // }
 
     @Get('voluntario/me')
-    // @UseGuards(AuthGuard()) // Protege a rota
     async getVoluntario(@Request() req): Promise<VOLUNTARIO> {
+        console.log(req.user); // Adicione esta linha para debugar
     return req.user; // Retorna o voluntário autenticado
     }
 

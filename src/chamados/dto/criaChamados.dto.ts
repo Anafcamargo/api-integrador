@@ -22,8 +22,5 @@ export class CriachamadosDTO {
     @IsNotEmpty({message: " IDUsuario não pode ser vazio"})
     IDUSUARIO: string;
 
-    // @IsString()
-    // @IsNotEmpty({message: " IDVoluntario não pode ser vazio"})
-    // IDVOLUNTARIO: string;
-
+    
 }
