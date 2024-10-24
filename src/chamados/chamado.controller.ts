@@ -1,17 +1,24 @@
 
 import { RetornoCadastroDTO, RetornoObjDTO } from 'src/dto/retorno.dto';
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { CriachamadosDTO } from './dto/criachamados.dto';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { chamados } from './chamado.entity';
 import { chamadosService } from './chamado.service';
 import { USUARIO } from 'src/usuario/usuario.entity';
+import { User } from 'src/decorator/user.decorator';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { UsuarioService } from 'src/usuario/usuario.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('chamados')
 @Controller("/chamados")
 export class chamadosController {
     usuarioServie: any;
-    constructor(private readonly chamadosService: chamadosService) {}
+    constructor(private readonly chamadosService: chamadosService,
+        private readonly usuarioService: UsuarioService
+    ) { console.log('UsuarioService:', usuarioService);}
+    
 
     @Get("listar")
     @ApiResponse({ status: 200, description: 'Lista todos os chamados.' })
@@ -19,18 +26,18 @@ export class chamadosController {
         return this.chamadosService.listar();
     }
 
-    @Post("cadastro")
-    @ApiResponse({ status: 201, description: 'Chamado cadastrado com sucesso.' })
-    async criachamados(@Body() dados: CriachamadosDTO): Promise<RetornoCadastroDTO> {
-        // Implementação para salvar o chamado
-        return this.chamadosService.inserir(dados);
+    @UseGuards(AuthGuard('jwt'))
+    @Post('cadastro')
+    async criarChamado(@User() user, @Body() dados: CriachamadosDTO) {
+      dados.IDUSUARIO = user.userId; // Usa o decorator para obter o ID do usuário
+      return this.chamadosService.inserir(dados);
     }
 
-
-    @Get("usuario/:id")
+    @UseGuards(JwtAuthGuard)
+    @Get("usuario/:id") // Mude "id" para ":id"
     @ApiResponse({ status: 200, description: 'Retorna o usuário correspondente ao ID.' })
     async listarUsuario(@Param("id") id: string): Promise<USUARIO> {
-        return this.usuarioServie.localizarID(id); // Implementação para encontrar o usuário
+        return this.usuarioService.localizarID(id); // Implementação para encontrar o usuário
     }
 
     @Delete("remove-:id")

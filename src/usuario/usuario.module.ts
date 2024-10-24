@@ -1,4 +1,3 @@
-
 import { Module, forwardRef } from '@nestjs/common';
 import { UsuarioController } from './usuario.controller';
 import { DatabaseModule } from 'src/database/database.module';
@@ -6,8 +5,9 @@ import { usuarioProviders } from './usuario.providers';
 import { UsuarioService } from './usuario.service';
 import { telefoneUnicoValidator } from './validacao/telefone.validator';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { USUARIO } from './usuario.entity';
 import { AuthModule } from 'src/auth/auth.module';
+import { DataSource } from 'typeorm';
+import { USUARIO } from './usuario.entity';
 
 
 @Module({  
@@ -15,16 +15,16 @@ import { AuthModule } from 'src/auth/auth.module';
   controllers: [UsuarioController],  
   providers: [
     {
-      provide: 'VOLUNTARIO_REPOSITORY',
-      useFactory: (dataSource) => dataSource.getRepository(USUARIO),
-      inject: ['DATA_SOURCE'], // Certifique-se de que DATA_SOURCE está sendo injetado corretamente
+      provide: 'USUARIO_REPOSITORY',
+      useFactory: (dataSource: DataSource) => dataSource.getRepository(USUARIO),
+      inject: ['DATA_SOURCE'],
     },
     ...usuarioProviders,
     UsuarioService,
     telefoneUnicoValidator,
-    AuthModule
+   
   ],
-  exports: [UsuarioService],
+  exports: [UsuarioService,'USUARIO_REPOSITORY'],
 })
 export class UsuarioModule {
 }

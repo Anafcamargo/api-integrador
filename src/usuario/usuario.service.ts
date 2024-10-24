@@ -5,8 +5,6 @@ import {RetornoCadastroDTO, RetornoObjDTO} from "src/dto/retorno.dto";
 import { USUARIO } from "./usuario.entity";
 import { CriaUsuarioDTO } from "./dto/criaUsuario.dto";
 import { AlteraUsuarioDTO} from "./dto/alteraUsuario.dto";
-import { sign } from "jsonwebtoken";
-import * as bcrypt from 'bcrypt';
 import { LoginUsuarioDTO } from "./dto/loginUsuario.dto";
 import { RegisterUsuarioDTO } from "./dto/registerUsuario.dto";
 import * as jwt from 'jsonwebtoken';
@@ -16,7 +14,7 @@ import * as jwt from 'jsonwebtoken';
 
 export class UsuarioService {
     constructor(
-        @Inject("USUARIO_REPOSITORY")
+        @Inject('USUARIO_REPOSITORY')
         private usuarioRepository: Repository<USUARIO>,
     ){}
 
@@ -62,6 +60,9 @@ export class UsuarioService {
         return await this.usuarioRepository.save(usuario);
     }
 
+    async findById(id: string): Promise<USUARIO> {
+        return this.usuarioRepository.findOne({ where: { ID: id } });
+    }
 
     async validarUsuario(TELEFONE: string, SENHA: string): Promise<USUARIO | null> {
         const usuario = await this.usuarioRepository.findOne({ where: { TELEFONE } });
