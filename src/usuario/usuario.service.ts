@@ -113,15 +113,6 @@ export class UsuarioService {
         }
     }
 
-
-    // async localizarTelefone(telefone: string) {
-    //     return await this.usuarioRepository.findOne({
-    //         where: {
-    //             TELEFONE: telefone,
-    //         },
-    //     });
-    // }
-
     async validaTelefone(telefoneNovo: string) {
         const possivelUsuario = await this.encontrarPorTelefone(telefoneNovo);
     

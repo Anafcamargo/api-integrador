@@ -17,10 +17,7 @@ export class AuthVoluntarioService {
 
         // Validação do voluntário (delegando ao VoluntarioService)
         const voluntario = await this.voluntarioService.validarVoluntario(EMAIL, SENHA);
-            // // Log para verificar as senhas
-            // console.log('Email:', EMAIL);
-            // console.log('Senha fornecida:', SENHA);
-            // console.log('Senha armazenada:', voluntario.SENHA); // A senha armazenada no banco de dados
+  
         if (!voluntario) {
             throw new UnauthorizedException('Credenciais inválidas');
         }

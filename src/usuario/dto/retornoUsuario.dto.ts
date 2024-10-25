@@ -1,8 +1,5 @@
-
-
 import { IsNotEmpty, IsString } from "class-validator";
-import { USUARIO } from "../usuario.entity";
-import { ApiProperty } from "@nestjs/swagger";
+
 
 export class RetornoUsuarioDTO {
     @IsString()

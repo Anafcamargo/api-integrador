@@ -1,7 +1,5 @@
-
-
 import { IsNotEmpty, IsString } from "class-validator";
-import { VOLUNTARIO} from "../voluntario.entity";
+
 
 
 

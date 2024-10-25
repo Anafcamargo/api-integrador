@@ -53,9 +53,6 @@ export class VOLUNTARIO {
         return bcrypt.compareSync(senha,this.SENHA);
     }
 
-    // @OneToMany(() => chamados, chamados => chamados.voluntario)
-    // chamados: chamados[];
-
     @BeforeInsert()
     generateUUID() {
         this.ID = uuid();

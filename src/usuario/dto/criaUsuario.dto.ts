@@ -1,5 +1,3 @@
-
-
 import { IsNotEmpty, IsString, IsOptional, IsPhoneNumber, Length } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { TelefoneUnico } from "../validacao/telefone.validator";

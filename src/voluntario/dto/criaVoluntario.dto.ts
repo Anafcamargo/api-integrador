@@ -1,5 +1,3 @@
-
-
 import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 // import { EmailUnico } from "../validacao/email.validator";

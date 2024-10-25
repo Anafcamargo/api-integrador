@@ -1,5 +1,3 @@
-
-
 export class ListachamadosDTO {
     constructor(
         readonly ID: string,

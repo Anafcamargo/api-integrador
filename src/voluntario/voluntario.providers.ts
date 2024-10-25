@@ -1,5 +1,3 @@
-
-import { Inject } from "@nestjs/common";
 import { DataSource } from "typeorm";
 import { VOLUNTARIO } from "./voluntario.entity";
 

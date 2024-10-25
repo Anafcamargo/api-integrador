@@ -1,6 +1,5 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { voluntarioController } from './voluntario.controller';
 import { VoluntarioService } from './voluntario.service';
 import { voluntarioProviders } from './voluntario.providers';

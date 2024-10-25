@@ -1,5 +1,3 @@
-
-import { VOLUNTARIO } from "src/voluntario/voluntario.entity";
 import { Column, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -22,12 +20,5 @@ export class chamados {
     @Column({ length: 155 })
     IDUSUARIO: string;
 
-    // @Column({ length: 155 })
-    // IDVOLUNTARIO: string;
-
-
-    // @ManyToOne(() => VOLUNTARIO, voluntario => voluntario.chamados)
-    // voluntario: VOLUNTARIO; // Relaciona um único voluntário ao chamados
-    // usuario: any;
-    // static id: string;
+   
 }

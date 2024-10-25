@@ -1,6 +1,4 @@
-
 import { ApiProperty } from "@nestjs/swagger";
-import { chamados } from "src/chamados/chamado.entity";
 import { v4 as uuid} from 'uuid';
 
 import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -38,11 +36,6 @@ export class USUARIO {
     login(senha){
         return bcrypt.compareSync(senha,this.SENHA);
     }
-
-
-    // @OneToMany(() => chamados, chamados => chamados.usuario)
-    // @ApiProperty({ type: () => chamados, isArray: true })
-    // chamados: chamados[];
 
     @BeforeInsert()
     generateUUID() {

@@ -1,11 +1,7 @@
-
 import { UsuarioService } from './usuario.service';
 import { Body, Controller, Delete, Get, Param, Post, Put, Res, UnauthorizedException } from "@nestjs/common";
 import { CriaUsuarioDTO } from "./dto/criaUsuario.dto";
 import { USUARIO } from "./usuario.entity";
-import { v4 as uuid } from 'uuid';
-import { RetornoUsuarioDTO } from "./dto/retornoUsuario.dto";
-import { ListaUsuarioDTO } from "./dto/listaUsuario.dto";
 import { LoginUsuarioDTO } from "./dto/loginUsuario.dto";
 import { AlteraUsuarioDTO } from "./dto/alteraUsuario.dto";
 import { ApiCreatedResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
@@ -64,15 +60,4 @@ export class UsuarioController {
     }
 
     
-     // @Post('login')
-    // @ApiResponse({ status: 200, description: 'Login realizado com sucesso' })
-    // @ApiResponse({ status: 401, description: 'Credenciais inválidas - usuario' })
-    // async loginUsuario(@Body() dados: LoginUsuarioDTO, @Res() res: Response): Promise<Response> {
-    //     const usuario = await this.authService.login(dados);
-    
-    //     const token = this.authService.gerarToken(usuario);
-    //     return res.status(200).json({ token, IDUSUARIO: usuario.IDUSUARIO, message: 'Login realizado com sucesso' });
-    // }
-    
-    // Add other methods as needed
 }

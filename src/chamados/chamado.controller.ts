@@ -1,4 +1,3 @@
-
 import { RetornoCadastroDTO, RetornoObjDTO } from 'src/dto/retorno.dto';
 import { BadRequestException, Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { CriachamadosDTO } from './dto/criachamados.dto';
@@ -34,7 +33,7 @@ export class chamadosController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Get("usuario/:id") // Mude "id" para ":id"
+    @Get("usuario/:id") 
     @ApiResponse({ status: 200, description: 'Retorna o usuário correspondente ao ID.' })
     async listarUsuario(@Param("id") id: string): Promise<USUARIO> {
         return this.usuarioService.localizarID(id); // Implementação para encontrar o usuário

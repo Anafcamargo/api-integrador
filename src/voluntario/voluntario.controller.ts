@@ -35,26 +35,26 @@ export class voluntarioController{
     }
 
 
-
-
     @Post('login')
     async login(@Body() loginDto: LoginVoluntarioDTO) {
         return await this.VoluntarioService.login(loginDto); // Passa o DTO completo
     }
 
-    // @Post('register')
-    // async register(@Body() dados: RegisterVoluntarioDTO) {
-    //     return await this.VoluntarioService.register(dados);
-    // }
+
+    @Get("/:id") 
+    @ApiResponse({ status: 200, description: 'Retorna o usuário correspondente ao ID.' })
+    async listarvoluntario(@Param("id") id: string): Promise<VOLUNTARIO> {
+        return this.VoluntarioService.localizarID(id); // Implementação para encontrar o usuário
+    }
 
     @Get('voluntario/me')
     async getVoluntario(@Request() req): Promise<VOLUNTARIO> {
         console.log(req.user); // Adicione esta linha para debugar
-    return req.user; // Retorna o voluntário autenticado
+    return req.user; // Retorna o voluntário autenticado 
     }
 
     @Put (":id")
-    @ApiResponse({ status: 200, description: 'Usuário alterado com sucesso' })
+    @ApiResponse({ status: 200, description: 'voluntário alterado com sucesso' })
     async alterarVoluntario(@Body() dados: alteraVoluntarioDTO, @Param("id") id: string): Promise<RetornoCadastroDTO> {
         return this.VoluntarioService.alterar(id,dados);
     }
