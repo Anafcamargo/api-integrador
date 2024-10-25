@@ -25,10 +25,10 @@ export class chamadosController {
         return this.chamadosService.listar();
     }
 
-    @UseGuards(AuthGuard('jwt'))
+    
     @Post('cadastro')
     async criarChamado(@User() user, @Body() dados: CriachamadosDTO) {
-      dados.IDUSUARIO = user.userId; // Usa o decorator para obter o ID do usuário
+    //   dados.IDUSUARIO = user.userId; // Usa o decorator para obter o ID do usuário
       return this.chamadosService.inserir(dados);
     }
 

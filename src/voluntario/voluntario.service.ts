@@ -142,9 +142,9 @@ export class VoluntarioService {
     // Função para localizar voluntário por ID
     async localizarID(ID: string): Promise<VOLUNTARIO> {
         const voluntario = await this.voluntarioRepository.findOne({ where: { ID } });
-        if (!voluntario) {
-            throw new Error("Voluntário não encontrado");
-        }
+        // if (!voluntario) {
+        //     throw new Error("Voluntário não encontrado");
+        // }
         return voluntario;
     }
 
